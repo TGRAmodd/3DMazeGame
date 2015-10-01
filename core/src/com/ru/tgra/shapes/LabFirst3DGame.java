@@ -29,7 +29,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private int colorLoc;
 	
 	private Camera cam;
-	private int angle;
+	private float angle;
 
 	//private ModelMatrix modelMatrix;
 
@@ -107,17 +107,14 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		//OrthographicProjection3D(-2, 2, -2, 2, 1, 100);
 		PerspctiveProjection3D();
-		Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
+		cam = new Camera(viewMatrixLoc);
+		cam.look(new Point3D(-13f, 7f, 9f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
-		cam = new Camera();
+		
 	}
 
 	private void input()
 	{
-		/*
-		
-		
-		*/
 	}
 	
 	private void update()
@@ -184,6 +181,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		cam.setShaderMatrix();
 
 		ModelMatrix.main.loadIdentityMatrix();
+		//ModelMatrix.main.addRotationZ(angle);
 		
 		
 		int maxLevel = 9;
