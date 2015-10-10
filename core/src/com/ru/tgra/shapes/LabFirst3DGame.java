@@ -108,13 +108,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
-		//OrthographicProjection3D(-2, 2, -2, 2, 1, 100);
 		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
-		cam.look(new Point3D(-13f, 7f, 9f), new Point3D(0,3,0), new Vector3D(0,1,0));
+		cam.look(new Point3D(-3f, 2f, 3f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
 		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
-		orthoCam.orthographicProjection(-10, 10, -10, 10, 1, 100);
-		
+		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 	}
 
 	private void input()
@@ -146,7 +144,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			cam.slide(0, -3.0f * deltaTime, 0);
 		}
 		
-		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			cam.yaw(-90.0f * deltaTime);
 		}
@@ -167,6 +164,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			cam.roll(90.0f * deltaTime);
 		}
 		
+		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
+			fov -= 30.0f * deltaTime;
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
+			fov += 30.0f * deltaTime;			
+		}
+		
 
 		//do all updates to the game
 	}
@@ -176,52 +180,89 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-		Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
-		
-		//BoxGraphic.drawOutlineCube();
-		//SphereGraphic.drawSolidSphere();
-		//SphereGraphic.drawOutlineSphere();
-		
-		cam.setShaderMatrices();
-
-		ModelMatrix.main.loadIdentityMatrix();
-		//ModelMatrix.main.addRotationZ(angle);
-		
-		
-		int maxLevel = 9;
-		
-		ModelMatrix.main.pushMatrix();
-		for (int level = 0; level < maxLevel; level++)
+		for(int viewNum = 0; viewNum < 2; viewNum++)
 		{
-			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-			
-			ModelMatrix.main.pushMatrix();
-			for (int i = 0; i < maxLevel-level; i++)
+			if(viewNum == 0)
 			{
-				ModelMatrix.main.addTranslation(1.1f, 0, 0);
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+				cam.perspectiveProjection(fov, 1.0f, 0.1f, 100.0f);
+				cam.setShaderMatrices();
+			}
+			else
+			{
+				Gdx.gl.glViewport(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+				//orthoCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0,0,-1));
+				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
+				orthoCam.setShaderMatrices();
+			}
+				
+			//BoxGraphic.drawOutlineCube();
+			//SphereGraphic.drawSolidSphere();
+			//SphereGraphic.drawOutlineSphere();
+		
+			ModelMatrix.main.loadIdentityMatrix();		
+		
+			int maxLevel = 9;
+						
+			for (int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
+			{
 				ModelMatrix.main.pushMatrix();
-				for (int j = 0; j < maxLevel-level; j++)
+				if(pyramidNr == 0)
 				{
-					ModelMatrix.main.addTranslation(0, 0, -1.1f);
+					Gdx.gl.glUniform4f(colorLoc, 0.8f, 0.8f, 0.2f, 1.0f);
+					ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
+				}
+				else
+				{
+					Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
+					ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
+				}
+				ModelMatrix.main.pushMatrix();
+				for (int level = 0; level < maxLevel; level++)
+				{
+					ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+					
 					ModelMatrix.main.pushMatrix();
-					if(i % 2 == 0) 
+					for (int i = 0; i < maxLevel-level; i++)
 					{
-						ModelMatrix.main.addScale(0.2f, 1, 1);
+						ModelMatrix.main.addTranslation(1.1f, 0, 0);
+						ModelMatrix.main.pushMatrix();
+						for (int j = 0; j < maxLevel-level; j++)
+						{
+							ModelMatrix.main.addTranslation(0, 0, -1.1f);
+							ModelMatrix.main.pushMatrix();
+							if(i % 2 == 0) 
+							{
+								ModelMatrix.main.addScale(0.2f, 1, 1);
+							}
+							else
+							{
+								ModelMatrix.main.addScale(1, 1, 0.2f);
+							}
+							ModelMatrix.main.setShaderMatrix();
+							//SphereGraphic.drawSolidSphere();
+							BoxGraphic.drawSolidCube();
+							ModelMatrix.main.popMatrix();
+						}
+						ModelMatrix.main.popMatrix();
 					}
-					else
-					{
-						ModelMatrix.main.addScale(1, 1, 0.2f);
-					}
-					ModelMatrix.main.setShaderMatrix();
-					//SphereGraphic.drawSolidSphere();
-					BoxGraphic.drawSolidCube();
 					ModelMatrix.main.popMatrix();
 				}
 				ModelMatrix.main.popMatrix();
+				ModelMatrix.main.popMatrix();
 			}
-			ModelMatrix.main.popMatrix();
+			
+			if(viewNum == 1)
+			{
+				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
+				
+				ModelMatrix.main.pushMatrix();
+				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
+				ModelMatrix.main.setShaderMatrix();
+				BoxGraphic.drawSolidCube();
+				ModelMatrix.main.popMatrix();
+			}
 		}
-		ModelMatrix.main.popMatrix();
 	}
 
 	@Override
