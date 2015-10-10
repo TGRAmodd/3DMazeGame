@@ -172,7 +172,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-		Gdx.gl.glUniform4f(colorLoc, 0.9f, 0.3f, 0.1f, 1.0f);
+		Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
 		
 		//BoxGraphic.drawOutlineCube();
 		//SphereGraphic.drawSolidSphere();
@@ -199,9 +199,19 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				for (int j = 0; j < maxLevel-level; j++)
 				{
 					ModelMatrix.main.addTranslation(0, 0, -1.1f);
+					ModelMatrix.main.pushMatrix();
+					if(i % 2 == 0) 
+					{
+						ModelMatrix.main.addScale(0.2f, 1, 1);
+					}
+					else
+					{
+						ModelMatrix.main.addScale(1, 1, 0.2f);
+					}
 					ModelMatrix.main.setShaderMatrix();
 					//SphereGraphic.drawSolidSphere();
 					BoxGraphic.drawSolidCube();
+					ModelMatrix.main.popMatrix();
 				}
 				ModelMatrix.main.popMatrix();
 			}
