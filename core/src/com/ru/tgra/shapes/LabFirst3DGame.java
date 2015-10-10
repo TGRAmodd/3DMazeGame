@@ -29,6 +29,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private int colorLoc;
 	
 	private Camera cam;
+	private Camera orthoCam;
+	
+	private float fov = 90.0f;
+	
 	private float angle;
 
 	//private ModelMatrix modelMatrix;
@@ -108,6 +112,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		cam.look(new Point3D(-13f, 7f, 9f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
+		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
+		orthoCam.orthographicProjection(-10, 10, -10, 10, 1, 100);
 		
 	}
 

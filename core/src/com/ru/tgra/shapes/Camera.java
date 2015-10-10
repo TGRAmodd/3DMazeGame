@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.BufferUtils;
 
 public class Camera {
 
-	Point3D eye;
+	public Point3D eye;
 	Vector3D u;
 	Vector3D v;
 	Vector3D n;
@@ -122,6 +122,8 @@ public class Camera {
 		this.left = -right;
 		this.near = near;
 		this.far = far;
+		
+		orthographic = false;
 	}
 	
 	public void setShaderMatrices()
