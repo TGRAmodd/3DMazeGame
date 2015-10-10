@@ -74,7 +74,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		Gdx.gl.glUseProgram(renderingProgramID);
 
-		OrthographicProjection3D(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight(), -1, 1);
 /*
 		float[] mm = new float[16];
 
@@ -106,8 +105,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		//OrthographicProjection3D(-2, 2, -2, 2, 1, 100);
-		PerspctiveProjection3D();
-		cam = new Camera(viewMatrixLoc);
+		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		cam.look(new Point3D(-13f, 7f, 9f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
 		
@@ -178,7 +176,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//SphereGraphic.drawSolidSphere();
 		//SphereGraphic.drawOutlineSphere();
 		
-		cam.setShaderMatrix();
+		cam.setShaderMatrices();
 
 		ModelMatrix.main.loadIdentityMatrix();
 		//ModelMatrix.main.addRotationZ(angle);
@@ -251,45 +249,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		matrixBuffer.put(pm);
 		matrixBuffer.rewind();
 		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
-	}
-
-	private void OrthographicProjection3D(float left, float right, float bottom, float top, float near, float far) {
-		float[] pm = new float[16];
-
-		pm[0] = 2.0f / (right - left); pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = -(right + left) / (right - left);
-		pm[1] = 0.0f; pm[5] = 2.0f / (top - bottom); pm[9] = 0.0f; pm[13] = -(top + bottom) / (top - bottom);
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = 2.0f / (near - far); pm[14] = (near + far) / (near - far);
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(projectionMatrixLoc, 1, false, matrixBuffer);
-
-		pm[0] = 1.0f; pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = 0.0f;
-		pm[1] = 0.0f; pm[5] = 1.0f; pm[9] = 0.0f; pm[13] = 0.0f;
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = 1.0f; pm[14] = 0.0f;
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
-	}
-
-	private void PerspctiveProjection3D() {
-		float[] pm = new float[16];
-
-		pm[0] = 1.0f; pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = 0.0f;
-		pm[1] = 0.0f; pm[5] = 1.0f; pm[9] = 0.0f; pm[13] = 0.0f;
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = -1.02f; pm[14] = -2.02f;
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = -1.0f; pm[15] = 0.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(projectionMatrixLoc, 1, false, matrixBuffer);
-
 	}
 
 	@Override
