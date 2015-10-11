@@ -34,6 +34,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private float fov = 90.0f;
 	
 	private float angle;
+	
+	private Maze maze;
 
 	//private ModelMatrix modelMatrix;
 	
@@ -49,7 +51,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void create () {
-		
+		maze = new Maze(20, 20);
 		Gdx.input.setInputProcessor(this);
 
 		String vertexShaderString;
@@ -201,7 +203,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	{
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
+		
 		for(int viewNum = 0; viewNum < 2; viewNum++)
 		{
 			if(viewNum == 0)
@@ -217,12 +219,14 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
 				orthoCam.setShaderMatrices();
 			}
-		
+			
 			ModelMatrix.main.loadIdentityMatrix();		
 			drawExtraObject();
-		
+					
+			maze.drawMaze();
+			
 			int maxLevel = 9;
-						
+			/*			
 			ModelMatrix.main.pushMatrix();
 			Gdx.gl.glUniform4f(colorLoc, 0.9f, 0.9f, 0.9f, 1.0f);
 			ModelMatrix.main.addTranslation(6, 0.4f, -6f);
@@ -264,7 +268,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.popMatrix();
 			ModelMatrix.main.popMatrix();
 			ModelMatrix.main.popMatrix();
-			
+			*/
 			if(viewNum == 1)
 			{
 				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
