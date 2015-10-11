@@ -113,6 +113,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
+		
+		Gdx.input.setCursorCatched(true);
 	}
 
 	private void input()
@@ -132,10 +134,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			cam.slide(3.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.slide(0, 0, -3.0f * deltaTime);
+			//cam.slide(0, 0, -3.0f * deltaTime);
+			cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			cam.slide(0, 0, 3.0f * deltaTime);
+			//cam.slide(0, 0, 3.0f * deltaTime);
+			cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
 			cam.slide(0, 3.0f * deltaTime, 0);
@@ -145,16 +149,22 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			cam.yaw(-90.0f * deltaTime);
+			//cam.yaw(-90.0f * deltaTime);
+			cam.rotateY(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			cam.yaw(90.0f * deltaTime);
+			//cam.yaw(90.0f * deltaTime);
+			cam.rotateY(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			cam.pitch(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			cam.pitch(90.0f * deltaTime);
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			Gdx.app.exit();
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
@@ -171,7 +181,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			fov += 30.0f * deltaTime;			
 		}
 		
-
+		cam.rotateY(-Gdx.input.getDeltaX());
+		cam.pitch(-Gdx.input.getDeltaY());
+		
 		//do all updates to the game
 	}
 	
