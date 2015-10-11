@@ -31,7 +31,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private Camera cam;
 	private Camera orthoCam;
 	
-	private float fov = 90.0f;
+	private float fov = 100.0f;
 	
 	private float angle;
 	

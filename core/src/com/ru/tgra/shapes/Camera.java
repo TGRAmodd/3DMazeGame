@@ -14,6 +14,7 @@ public class Camera {
 	Vector3D u;
 	Vector3D v;
 	Vector3D n;
+	private float absolutePitchAngle;
 	
 	boolean orthographic;
 	
@@ -30,6 +31,7 @@ public class Camera {
 	
 	public Camera(int viewMatrixPointer, int projectionMatrixPointer)
 	{
+		absolutePitchAngle = 90;
 		this.viewMatrixPointer = viewMatrixPointer;
 		this.projectionMatrixPointer = projectionMatrixPointer;
 		matrixBuffer = BufferUtils.newFloatBuffer(16);
@@ -137,6 +139,11 @@ public class Camera {
 	
 	public void pitch(float angle)
 	{
+		if(angle+absolutePitchAngle > 160 || angle+absolutePitchAngle < 5 ){
+			return;
+		}
+		
+		absolutePitchAngle += angle;
 		float radians = angle * (float)Math.PI / 180.0f;
 		float c = (float)Math.cos(radians);
 		float s = (float)Math.sin(radians);
