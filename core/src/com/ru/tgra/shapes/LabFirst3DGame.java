@@ -195,62 +195,52 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
 				orthoCam.setShaderMatrices();
 			}
-				
-			//BoxGraphic.drawOutlineCube();
-			//SphereGraphic.drawSolidSphere();
-			//SphereGraphic.drawOutlineSphere();
 		
 			ModelMatrix.main.loadIdentityMatrix();		
 		
 			int maxLevel = 9;
 						
-			for (int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
+			ModelMatrix.main.pushMatrix();
+			Gdx.gl.glUniform4f(colorLoc, 0.9f, 0.9f, 0.9f, 1.0f);
+			ModelMatrix.main.addTranslation(6, 0.4f, -6f);
+			ModelMatrix.main.addScale(10f, 0.2f, 10f);
+			ModelMatrix.main.setShaderMatrix();
+			BoxGraphic.drawSolidCube();
+			ModelMatrix.main.popMatrix();
+			
+			
+			ModelMatrix.main.pushMatrix();
+			Gdx.gl.glUniform4f(colorLoc, 0.8f, 0.8f, 0.2f, 1.0f);
+				
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+				
+			ModelMatrix.main.pushMatrix();
+			for (int i = 0; i < maxLevel; i++)
 			{
+				ModelMatrix.main.addTranslation(1.0f, 0, 0);
 				ModelMatrix.main.pushMatrix();
-				if(pyramidNr == 0)
+				for (int j = 0; j < maxLevel; j++)
 				{
-					Gdx.gl.glUniform4f(colorLoc, 0.8f, 0.8f, 0.2f, 1.0f);
-					ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
-				}
-				else
-				{
-					Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
-					ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
-				}
-				ModelMatrix.main.pushMatrix();
-				for (int level = 0; level < 1; level++)
-				{
-					ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-					
+					ModelMatrix.main.addTranslation(0, 0, -1.0f);
 					ModelMatrix.main.pushMatrix();
-					for (int i = 0; i < maxLevel-level; i++)
+					if(i % 2 == 0) 
 					{
-						ModelMatrix.main.addTranslation(1.0f, 0, 0);
-						ModelMatrix.main.pushMatrix();
-						for (int j = 0; j < maxLevel-level; j++)
-						{
-							ModelMatrix.main.addTranslation(0, 0, -1.0f);
-							ModelMatrix.main.pushMatrix();
-							if(i % 2 == 0) 
-							{
-								ModelMatrix.main.addScale(0.2f, 1, 1);
-							}
-							else
-							{
-								ModelMatrix.main.addScale(1, 1, 0.2f);
-							}
-							ModelMatrix.main.setShaderMatrix();
-							//SphereGraphic.drawSolidSphere();
-							BoxGraphic.drawSolidCube();
-							ModelMatrix.main.popMatrix();
-						}
-						ModelMatrix.main.popMatrix();
+						ModelMatrix.main.addScale(0.2f, 1, 1);
 					}
+					else
+					{
+						ModelMatrix.main.addScale(1, 1, 0.2f);
+					}
+					ModelMatrix.main.setShaderMatrix();
+					BoxGraphic.drawSolidCube();
 					ModelMatrix.main.popMatrix();
 				}
 				ModelMatrix.main.popMatrix();
-				ModelMatrix.main.popMatrix();
-			}
+				}
+			ModelMatrix.main.popMatrix();
+			ModelMatrix.main.popMatrix();
+			ModelMatrix.main.popMatrix();
 			
 			if(viewNum == 1)
 			{
