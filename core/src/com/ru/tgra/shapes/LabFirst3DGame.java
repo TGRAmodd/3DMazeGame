@@ -100,7 +100,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		SincGraphic.create(positionLoc);
 		CoordFrameGraphic.create(positionLoc);
 
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		Gdx.gl.glClearColor(0.3f, 0.3f, 0.8f, 1.0f);
 
 		ModelMatrix.main = new ModelMatrix();
 		ModelMatrix.main.loadIdentityMatrix();
