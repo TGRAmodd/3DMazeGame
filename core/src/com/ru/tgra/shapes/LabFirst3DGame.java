@@ -26,7 +26,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private int viewMatrixLoc;
 	private int projectionMatrixLoc;
 
-	private int colorLoc;
+	public static int colorLoc;
 	
 	private Camera cam;
 	private Camera orthoCam;
@@ -275,8 +275,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
+				ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
 				ModelMatrix.main.setShaderMatrix();
-				BoxGraphic.drawSolidCube();
+				SphereGraphic.drawSolidSphere();
 				ModelMatrix.main.popMatrix();
 			}
 		}

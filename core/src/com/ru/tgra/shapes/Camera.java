@@ -72,9 +72,32 @@ public class Camera {
 	
 	public void walkForward(float del)
 	{
+		float originX = eye.x;
+		float originZ = eye.z;
+		
 		eye.x -= del*n.x;
 		eye.z -= del*n.z;
+		
+		for(int i = 0; i < Maze.width; i++){
+				for(int j = 0; j < Maze.height; j++){
+					Maze.cells[i][j].color = 1.0f;
+				}
+		}
+		
+		for(int i = 0; i < Maze.width; i++){
+			if(Math.floor(eye.x) == i){
+				for(int j = 0; j < Maze.height; j++){
+					Maze.cells[i][j].color = 1.0f;
+					if(Math.floor(eye.z) == -j){
+						Maze.cells[i][j].color = 0.1f;
+					}
+				}
+			}
+		}
+		
+		
 	}
+
 	
 	public void roll(float angle)
 	{
