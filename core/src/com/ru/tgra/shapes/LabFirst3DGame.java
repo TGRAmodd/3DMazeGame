@@ -36,6 +36,16 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private float angle;
 
 	//private ModelMatrix modelMatrix;
+	
+	public void drawExtraObject() {
+		ModelMatrix.main.pushMatrix();
+		Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.6f, 0.3f, 1.0f);
+		ModelMatrix.main.addTranslation(4, 4f, -4f);
+		ModelMatrix.main.addScale(2.0f, 2.0f, 2.0f);
+		ModelMatrix.main.setShaderMatrix();
+		SphereGraphic.drawSolidSphere();
+		ModelMatrix.main.popMatrix();
+	}
 
 	@Override
 	public void create () {
@@ -209,6 +219,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			}
 		
 			ModelMatrix.main.loadIdentityMatrix();		
+			drawExtraObject();
 		
 			int maxLevel = 9;
 						
