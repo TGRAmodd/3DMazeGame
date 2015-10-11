@@ -218,18 +218,18 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
 				}
 				ModelMatrix.main.pushMatrix();
-				for (int level = 0; level < maxLevel; level++)
+				for (int level = 0; level < 1; level++)
 				{
 					ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
 					
 					ModelMatrix.main.pushMatrix();
 					for (int i = 0; i < maxLevel-level; i++)
 					{
-						ModelMatrix.main.addTranslation(1.1f, 0, 0);
+						ModelMatrix.main.addTranslation(1.0f, 0, 0);
 						ModelMatrix.main.pushMatrix();
 						for (int j = 0; j < maxLevel-level; j++)
 						{
-							ModelMatrix.main.addTranslation(0, 0, -1.1f);
+							ModelMatrix.main.addTranslation(0, 0, -1.0f);
 							ModelMatrix.main.pushMatrix();
 							if(i % 2 == 0) 
 							{
