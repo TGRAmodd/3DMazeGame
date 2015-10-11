@@ -78,6 +78,7 @@ public class Camera {
 		eye.x -= del*n.x;
 		eye.z -= del*n.z;
 		
+		//ONLY FOR RESETTING CELL COLORS
 		for(int i = 0; i < Maze.width; i++){
 				for(int j = 0; j < Maze.height; j++){
 					Maze.cells[i][j].color = 1.0f;
@@ -94,6 +95,8 @@ public class Camera {
 				}
 			}
 		}
+		
+		
 		
 		
 	}

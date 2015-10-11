@@ -34,6 +34,13 @@ public class Maze {
 			BoxGraphic.drawSolidCube();
 		ModelMatrix.main.popMatrix();
 		
+		//floor
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addScale(50, 1f, 50f);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+		
 		ModelMatrix.main.addTranslation(0,1,0);
 		for(int i = 0; i < width; i++){
 			ModelMatrix.main.pushMatrix();
