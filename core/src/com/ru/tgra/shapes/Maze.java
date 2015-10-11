@@ -53,4 +53,36 @@ public class Maze {
 		}
 		ModelMatrix.main.popMatrix();
 	}
+	public static Cell getNorth(int x, int z){
+		if(z >= height){
+			return null;
+		}
+		else{
+			return cells[x][z+1];
+		}
+	}
+	public static Cell getSouth(int x, int z){
+		if(z <= 0){
+			return null;
+		}
+		else{
+			return cells[x][z-1];
+		}
+	}
+	public static Cell getEast(int x, int z){
+		if(x >= width){
+			return null;
+		}
+		else{
+			return cells[x+1][z];
+		}
+	}
+	public static Cell getWest(int x, int z){
+		if(x <= 0){
+			return null;
+		}
+		else{
+			return cells[x-1][z];
+		}
+	}
 }

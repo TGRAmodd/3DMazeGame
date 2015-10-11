@@ -67,19 +67,38 @@ public class Camera {
 	
 	public void slide(float delU, float delV, float delN)
 	{
+		float originX = eye.x;
+		float originZ = eye.z;
+		int locX = -1;
+		int locZ = -1;
+		
 		eye.x += delU*u.x + delV*v.x + delN*n.x;
 		//eye.y += delU*u.y + delV*v.y + delN*n.y;
 		eye.z += delU*u.z + delV*v.z + delN*n.z;
+		
+		collisionCheck(originX, originZ, locX, locZ);
 	}
 	
 	public void walkForward(float del)
 	{
 		float originX = eye.x;
 		float originZ = eye.z;
+		int locX = -1;
+		int locZ = -1;
+		
 		
 		eye.x -= del*n.x;
 		eye.z -= del*n.z;
 		
+		collisionCheck(originX, originZ, locX, locZ);
+		
+		
+		
+		
+	}
+	
+	public void collisionCheck(float originX, float originZ, int locX, int locZ){
+		float padding = 0.35f;
 		//ONLY FOR RESETTING CELL COLORS
 		for(int i = 0; i < Maze.width; i++){
 				for(int j = 0; j < Maze.height; j++){
@@ -93,14 +112,51 @@ public class Camera {
 					Maze.cells[i][j].color = 1.0f;
 					if(Math.floor(eye.z) == -j){
 						Maze.cells[i][j].color = 0.1f;
+						locX = i;
+						locZ = j;
 					}
 				}
 			}
 		}
+		if(locX == -1 && locZ == -1){
+			return;
+		}
+		Cell cell = Maze.cells[locX][locZ];
+		float relX = eye.x-locX;
+		float relZ = eye.z+locZ;
 		
+		if(cell.northWall){
+			if(relZ <= padding){
+				eye.z = originZ;
+			}
+		}
+		if(cell.eastWall){
+			if(relX >= 1-padding){
+				eye.x = originX;
+			}
+		}
 		
+		// Check south wall
+		cell = Maze.getSouth(locX, locZ);
+		if(cell == null){
+			return;
+		}
+		if(cell.northWall){
+			if(relZ >= 1-padding){
+				eye.z = originZ;
+			}
+		}
 		
-		
+		// Check west wall
+		cell = Maze.getWest(locX, locZ);
+		if(cell == null){
+			return;
+		}
+		if(cell.eastWall){
+			if(relX < padding){
+				eye.x = originX;
+			}
+		}
 	}
 
 	
