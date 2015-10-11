@@ -142,10 +142,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			cam.slide(0, 3.0f * deltaTime, 0);
+			//cam.slide(0, 3.0f * deltaTime, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			cam.slide(0, -3.0f * deltaTime, 0);
+			//cam.slide(0, -3.0f * deltaTime, 0);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -157,10 +157,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			cam.rotateY(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(-90.0f * deltaTime);
+			cam.pitch(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(90.0f * deltaTime);
+			cam.pitch(-90.0f * deltaTime);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -168,21 +168,21 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			cam.roll(-90.0f * deltaTime);
+			//cam.roll(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-			cam.roll(90.0f * deltaTime);
+			//cam.roll(90.0f * deltaTime);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-			fov -= 30.0f * deltaTime;
+			//fov -= 30.0f * deltaTime;
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			fov += 30.0f * deltaTime;			
+			//fov += 30.0f * deltaTime;			
 		}
 		
-		cam.rotateY(-Gdx.input.getDeltaX());
-		cam.pitch(-Gdx.input.getDeltaY());
+		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
+		cam.pitch(-0.2f * Gdx.input.getDeltaY());
 		
 		//do all updates to the game
 	}
