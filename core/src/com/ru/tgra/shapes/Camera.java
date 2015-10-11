@@ -68,7 +68,6 @@ public class Camera {
 		eye.x += delU*u.x + delV*v.x + delN*n.x;
 		//eye.y += delU*u.y + delV*v.y + delN*n.y;
 		eye.z += delU*u.z + delV*v.z + delN*n.z;
-		System.out.println(eye.y);
 	}
 	
 	public void walkForward(float del)
