@@ -51,7 +51,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void create () {
-		maze = new Maze(20, 20);
+		maze = new Maze(15, 15);
 		Gdx.input.setInputProcessor(this);
 
 		String vertexShaderString;
@@ -203,7 +203,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	{
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		
+		Gdx.gl.glUniform4f(LabFirst3DGame.colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
 		for(int viewNum = 0; viewNum < 2; viewNum++)
 		{
 			if(viewNum == 0)
@@ -279,6 +279,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				ModelMatrix.main.setShaderMatrix();
 				SphereGraphic.drawSolidSphere();
 				ModelMatrix.main.popMatrix();
+				
 			}
 		}
 	}

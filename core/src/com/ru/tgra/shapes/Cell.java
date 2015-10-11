@@ -39,5 +39,6 @@ public class Cell {
 				
 			ModelMatrix.main.popMatrix();
 		}
+		Gdx.gl.glUniform4f(LabFirst3DGame.colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
 	}
 }

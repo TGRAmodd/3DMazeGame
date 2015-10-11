@@ -17,7 +17,6 @@ public class Maze {
 		for(int i = 0; i < width; i++){
 				for(int j = 0; j < height; j++){
 					cells[i][j] = new Cell(r.nextBoolean(), r.nextBoolean());
-					
 				}
 			
 		}
@@ -26,15 +25,16 @@ public class Maze {
 	public void drawMaze(){
 		ModelMatrix.main.pushMatrix();
 		
-		//NORTH WALL
+		/*NORTH WALL
 		ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(0,0,-20);
 			ModelMatrix.main.addScale(20, 20, 0.1f);
 			ModelMatrix.main.setShaderMatrix();
 			BoxGraphic.drawSolidCube();
 		ModelMatrix.main.popMatrix();
-		
+		*/
 		//floor
+		
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addScale(50, 1f, 50f);
 		ModelMatrix.main.setShaderMatrix();

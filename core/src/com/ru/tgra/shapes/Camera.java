@@ -100,18 +100,20 @@ public class Camera {
 	public void collisionCheck(float originX, float originZ, int locX, int locZ){
 		float padding = 0.35f;
 		//ONLY FOR RESETTING CELL COLORS
-		for(int i = 0; i < Maze.width; i++){
+		/*
+		 for(int i = 0; i < Maze.width; i++){
+		 
 				for(int j = 0; j < Maze.height; j++){
 					Maze.cells[i][j].color = 1.0f;
 				}
 		}
-		
+		*/
 		for(int i = 0; i < Maze.width; i++){
 			if(Math.floor(eye.x) == i){
 				for(int j = 0; j < Maze.height; j++){
 					Maze.cells[i][j].color = 1.0f;
 					if(Math.floor(eye.z) == -j){
-						Maze.cells[i][j].color = 0.1f;
+						//Maze.cells[i][j].color = 0.0f;
 						locX = i;
 						locZ = j;
 					}
@@ -138,25 +140,25 @@ public class Camera {
 		
 		// Check south wall
 		cell = Maze.getSouth(locX, locZ);
-		if(cell == null){
-			return;
-		}
-		if(cell.northWall){
-			if(relZ >= 1-padding){
-				eye.z = originZ;
+		if(cell != null){
+			if(cell.northWall){
+				if(relZ >= 1-padding){
+					eye.z = originZ;
+				}
 			}
 		}
 		
+		
 		// Check west wall
 		cell = Maze.getWest(locX, locZ);
-		if(cell == null){
-			return;
-		}
-		if(cell.eastWall){
-			if(relX < padding){
-				eye.x = originX;
+		if(cell != null){
+			if(cell.eastWall){
+				if(relX < padding){
+					eye.x = originX;
+				}
 			}
 		}
+		
 	}
 
 	
