@@ -109,7 +109,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
-		cam.look(new Point3D(-3f, 2f, 3f), new Point3D(0,3,0), new Vector3D(0,1,0));
+		cam.look(new Point3D(-3f, 1f, 3f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
 		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
