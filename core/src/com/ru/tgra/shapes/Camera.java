@@ -106,6 +106,7 @@ public class Camera {
 				break;
 			}
 		}
+
 		
 		if(forward){
 			eye.x -= delN*n.x;
