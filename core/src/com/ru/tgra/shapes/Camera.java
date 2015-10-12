@@ -14,6 +14,7 @@ public class Camera {
 	Vector3D u;
 	Vector3D v;
 	Vector3D n;
+	private float absolutePitchAngle;
 	
 	boolean orthographic;
 	
@@ -28,6 +29,11 @@ public class Camera {
 	
 	public Camera()
 	{
+
+		absolutePitchAngle = 90;
+		//this.viewMatrixPointer = viewMatrixPointer;
+		//this.projectionMatrixPointer = projectionMatrixPointer;
+
 		matrixBuffer = BufferUtils.newFloatBuffer(16);
 		
 		eye = new Point3D();
@@ -61,16 +67,100 @@ public class Camera {
 	
 	public void slide(float delU, float delV, float delN)
 	{
+		float originX = eye.x;
+		float originZ = eye.z;
+		int locX = -1;
+		int locZ = -1;
+		
 		eye.x += delU*u.x + delV*v.x + delN*n.x;
 		//eye.y += delU*u.y + delV*v.y + delN*n.y;
 		eye.z += delU*u.z + delV*v.z + delN*n.z;
+		
+		collisionCheck(originX, originZ, locX, locZ);
 	}
 	
 	public void walkForward(float del)
 	{
+		float originX = eye.x;
+		float originZ = eye.z;
+		int locX = -1;
+		int locZ = -1;
+		
+		
 		eye.x -= del*n.x;
 		eye.z -= del*n.z;
+		
+		collisionCheck(originX, originZ, locX, locZ);
+		
+		
+		
+		
 	}
+	
+	public void collisionCheck(float originX, float originZ, int locX, int locZ){
+		float padding = 0.35f;
+		//ONLY FOR RESETTING CELL COLORS
+		/*
+		 for(int i = 0; i < Maze.width; i++){
+		 
+				for(int j = 0; j < Maze.height; j++){
+					Maze.cells[i][j].color = 1.0f;
+				}
+		}
+		*/
+		for(int i = 0; i < Maze.width; i++){
+			if(Math.floor(eye.x) == i){
+				for(int j = 0; j < Maze.height; j++){
+					Maze.cells[i][j].color = 1.0f;
+					if(Math.floor(eye.z) == -j){
+						//Maze.cells[i][j].color = 0.0f;
+						locX = i;
+						locZ = j;
+					}
+				}
+			}
+		}
+		if(locX == -1 && locZ == -1){
+			return;
+		}
+		Cell cell = Maze.cells[locX][locZ];
+		float relX = eye.x-locX;
+		float relZ = eye.z+locZ;
+		
+		if(cell.northWall){
+			if(relZ <= padding){
+				eye.z = originZ;
+			}
+		}
+		if(cell.eastWall){
+			if(relX >= 1-padding){
+				eye.x = originX;
+			}
+		}
+		
+		// Check south wall
+		cell = Maze.getSouth(locX, locZ);
+		if(cell != null){
+			if(cell.northWall){
+				if(relZ >= 1-padding){
+					eye.z = originZ;
+				}
+			}
+		}
+		
+		
+		// Check west wall
+		cell = Maze.getWest(locX, locZ);
+		if(cell != null){
+			if(cell.eastWall){
+				if(relX < padding){
+					eye.x = originX;
+				}
+			}
+		}
+		
+	}
+
 	
 	public void roll(float angle)
 	{
@@ -107,6 +197,11 @@ public class Camera {
 	
 	public void pitch(float angle)
 	{
+		if(angle+absolutePitchAngle > 160 || angle+absolutePitchAngle < 5 ){
+			return;
+		}
+		
+		absolutePitchAngle += angle;
 		float radians = angle * (float)Math.PI / 180.0f;
 		float c = (float)Math.cos(radians);
 		float s = (float)Math.sin(radians);
