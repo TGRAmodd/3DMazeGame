@@ -9,6 +9,7 @@ public class Maze {
 	public static Cell[][] cells;
 	public static int width;
 	public static int height;
+	private Random r;
 	
 	Shader shader;
 	
@@ -17,7 +18,7 @@ public class Maze {
 		Maze.width = width;
 		Maze.height = height;
 		cells = new Cell[width][height];
-		Random r = new Random();
+		r = new Random();
 		for(int i = 0; i < width; i++){
 				for(int j = 0; j < height; j++){
 					cells[i][j] = new Cell(r.nextBoolean(), r.nextBoolean());
