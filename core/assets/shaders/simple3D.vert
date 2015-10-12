@@ -10,12 +10,13 @@ uniform mat4 u_modelMatrix;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 
+uniform vec4 u_eyePosition;
+
 uniform vec4 u_lightPosition;
-uniform vec4 u_lightDiffuse;
 
-uniform vec4 u_materialDiffuse;
-
-varying vec4 v_color;
+varying vec4 v_normal;
+varying vec4 v_s;
+varying vec4 v_h;
 
 
 void main()
@@ -28,20 +29,21 @@ void main()
 	
 	//global coordinates
 	
-	//Lighting
 	
-	vec4 s = u_lightPosition - position;
+	//preparation for lighting
 	
-	float lambert = dot(normal, s) / (length(normal) * length(s));
+	v_normal = normal;
 	
-	v_color = lambert * u_lightDiffuse * u_materialDiffuse;
-
+	v_s = u_lightPosition - position; //direction to the light
+	vec4 v = u_eyePosition - position; //direction to the camera
+	v_h = v_s + v;
+	
 	position = u_viewMatrix * position;
 	//normal = u_viewMatrix * normal;
 
 	//eye coordinates
 
-	//v_color = max(0, (dot(normal, vec4(0,0,1,0) / length(normal))) * u_color;
+	// v_color = max(0, (dot(normal, vec4(0,0,1,0) / length(normal))) * u_color;
 	//v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0)) / length(normal)) * u_color;
 
 

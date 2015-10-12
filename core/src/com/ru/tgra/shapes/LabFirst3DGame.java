@@ -179,6 +179,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				cam.perspectiveProjection(fov, 1.0f, 0.1f, 100.0f);
 				shader.setViewMatrix(cam.getViewMatrix());
 				shader.setProjectionMatrix(cam.getProjectionMatrix());
+				shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 			}
 			else
 			{
@@ -187,6 +188,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
 				shader.setViewMatrix(orthoCam.getViewMatrix());
 				shader.setProjectionMatrix(orthoCam.getProjectionMatrix());
+				shader.setEyePosition(orthoCam.eye.x, orthoCam.eye.y, orthoCam.eye.z, 1.0f);
+
 			}
 		
 			ModelMatrix.main.loadIdentityMatrix();
@@ -194,15 +197,17 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			float s = (float)Math.sin(angle * Math.PI / 180.0);
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
-			shader.setLightPosition(10.0f + c * 15.0f, 4.0f, -5.0f + s * 15.0f, 1.0f);
+			shader.setLightPosition( 15.0f, 4.0f, 15.0f, 1.0f);
 			
 			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
-			shader.setLightDiffuse(s, 0.4f, c, 1.0f);
+			//shader.setLightDiffuse(s, 1.0f, c, 1.0f);
+			shader.setLightDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 			
+			shader.setMaterialDiffuse(0.3f, 0.3f, 0.7f, 1.0f);
 			
-			shader.setMaterialDiffuse(0.4f, 1.0f, 0.8f, 1.0f);
+			shader.setShininess(20.0f);
 			
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);

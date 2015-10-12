@@ -17,12 +17,15 @@ public class Shader {
 		private int modelMatrixLoc;
 		private int viewMatrixLoc;
 		private int projectionMatrixLoc;
+		
+		private int eyePosLoc;
 
 		//private int colorLoc;
 		
 		private int lightPosLoc;
 		private int lightDifLoc;
 		private int matDifLoc;
+		private int matShineLoc;
 
 		
 	public Shader() {
@@ -41,6 +44,9 @@ public class Shader {
 	
 		Gdx.gl.glCompileShader(vertexShaderID);
 		Gdx.gl.glCompileShader(fragmentShaderID);
+		
+		System.out.println(Gdx.gl.glGetShaderInfoLog(vertexShaderID));
+		System.out.println(Gdx.gl.glGetShaderInfoLog(fragmentShaderID));
 
 		renderingProgramID = Gdx.gl.glCreateProgram();
 	
@@ -60,10 +66,14 @@ public class Shader {
 		projectionMatrixLoc		= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_projectionMatrix");
 
 		//colorLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_color");
+		
+		eyePosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_eyePosition");
 
 		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
 		lightDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse");
 		matDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
+		matShineLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialShininess");
+
 		
 		Gdx.gl.glUseProgram(renderingProgramID);
 		
@@ -75,6 +85,11 @@ public class Shader {
 		Gdx.gl.glUniform4f(colorLoc, r, g, b, a);
 	}
 */
+	public void setEyePosition(float x, float y, float z, float w){
+		
+		Gdx.gl.glUniform4f(eyePosLoc, x, y, z, w);
+	}
+	
 	public void setLightPosition(float x, float y, float z, float w){
 		
 		Gdx.gl.glUniform4f(lightPosLoc, x, y, z, w);
@@ -89,7 +104,11 @@ public class Shader {
 		
 		Gdx.gl.glUniform4f(matDifLoc, r, g, b, a);
 	}
-	
+
+	public void setShininess(float shine){
+		
+		Gdx.gl.glUniform1f(matShineLoc, shine);
+	}
 	
 	public int getVertexPointer() {
 		
