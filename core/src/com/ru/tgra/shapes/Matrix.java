@@ -161,7 +161,7 @@ public class Matrix {
 		matrix.put(14, tmp.get(14));
 		matrix.put(15, tmp.get(15));
 	}
-
+/*
 	public void setShaderMatrix(int shaderMatrixPointer)
 	{
 		this.shaderMatrixPointer = shaderMatrixPointer;
@@ -173,5 +173,14 @@ public class Matrix {
 		Gdx.gl.glUniformMatrix4fv(shaderMatrixPointer, 1, false, matrix);
 	}
 
-
+*/ 
+	public FloatBuffer getMatrix() {
+		
+		return matrix;
+	}
 }
+
+
+
+
+

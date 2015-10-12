@@ -7,76 +7,30 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 
-import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.utils.BufferUtils;
 
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
 
-	private FloatBuffer matrixBuffer;
+	Shader shader;
 
-	private int renderingProgramID;
-	private int vertexShaderID;
-	private int fragmentShaderID;
-
-	private int positionLoc;
-	private int normalLoc;
-
-	private int modelMatrixLoc;
-	private int viewMatrixLoc;
-	private int projectionMatrixLoc;
-
-	private int colorLoc;
+	private float angle;
 	
 	private Camera cam;
 	private Camera orthoCam;
 	
 	private float fov = 90.0f;
 	
-	private float angle;
+	
 
 	//private ModelMatrix modelMatrix;
 
 	@Override
 	public void create () {
 		
+		shader = new Shader();
+		
 		Gdx.input.setInputProcessor(this);
-
-		String vertexShaderString;
-		String fragmentShaderString;
-
-		vertexShaderString = Gdx.files.internal("shaders/simple3D.vert").readString();
-		fragmentShaderString =  Gdx.files.internal("shaders/simple3D.frag").readString();
-
-		vertexShaderID = Gdx.gl.glCreateShader(GL20.GL_VERTEX_SHADER);
-		fragmentShaderID = Gdx.gl.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-	
-		Gdx.gl.glShaderSource(vertexShaderID, vertexShaderString);
-		Gdx.gl.glShaderSource(fragmentShaderID, fragmentShaderString);
-	
-		Gdx.gl.glCompileShader(vertexShaderID);
-		Gdx.gl.glCompileShader(fragmentShaderID);
-
-		renderingProgramID = Gdx.gl.glCreateProgram();
-	
-		Gdx.gl.glAttachShader(renderingProgramID, vertexShaderID);
-		Gdx.gl.glAttachShader(renderingProgramID, fragmentShaderID);
-	
-		Gdx.gl.glLinkProgram(renderingProgramID);
-
-		positionLoc				= Gdx.gl.glGetAttribLocation(renderingProgramID, "a_position");
-		Gdx.gl.glEnableVertexAttribArray(positionLoc);
-
-		normalLoc				= Gdx.gl.glGetAttribLocation(renderingProgramID, "a_normal");
-		Gdx.gl.glEnableVertexAttribArray(normalLoc);
-
-		modelMatrixLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_modelMatrix");
-		viewMatrixLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_viewMatrix");
-		projectionMatrixLoc	= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_projectionMatrix");
-
-		colorLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_color");
-
-		Gdx.gl.glUseProgram(renderingProgramID);
 
 /*
 		float[] mm = new float[16];
@@ -92,26 +46,26 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrixBuffer);
 */
-		//COLOR IS SET HERE
-		Gdx.gl.glUniform4f(colorLoc, 0.7f, 0.2f, 0, 1);
+		
 
-		BoxGraphic.create(positionLoc, normalLoc);
-		SphereGraphic.create(positionLoc, normalLoc);
-		SincGraphic.create(positionLoc);
-		CoordFrameGraphic.create(positionLoc);
+		BoxGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
+		SphereGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
+		SincGraphic.create(shader.getVertexPointer());
+		CoordFrameGraphic.create(shader.getVertexPointer());
 
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.8f, 1.0f);
 
 		ModelMatrix.main = new ModelMatrix();
 		ModelMatrix.main.loadIdentityMatrix();
-		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
-
+		//ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
-		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
+		cam = new Camera();
 		cam.look(new Point3D(-3f, 1f, 3f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		
-		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
+		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
 		Gdx.input.setCursorCatched(true);
@@ -198,31 +152,52 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			{
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 				cam.perspectiveProjection(fov, 1.0f, 0.1f, 100.0f);
-				cam.setShaderMatrices();
+				shader.setViewMatrix(cam.getViewMatrix());
+				shader.setProjectionMatrix(cam.getProjectionMatrix());
 			}
 			else
 			{
 				Gdx.gl.glViewport(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 				//orthoCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0,0,-1));
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
-				orthoCam.setShaderMatrices();
+				shader.setViewMatrix(orthoCam.getViewMatrix());
+				shader.setProjectionMatrix(orthoCam.getProjectionMatrix());
 			}
 		
-			ModelMatrix.main.loadIdentityMatrix();		
-		
+			ModelMatrix.main.loadIdentityMatrix();
+			
+			float s = (float)Math.sin(angle * Math.PI / 180.0);
+			float c = (float)Math.cos(angle * Math.PI / 180.0);
+			
+			shader.setLightPosition(10.0f + c * 15.0f, 4.0f, -5.0f + s * 15.0f, 1.0f);
+			
+			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
+			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
+			
+			shader.setLightDiffuse(s, 0.4f, c, 1.0f);
+			
+			
+			shader.setMaterialDiffuse(0.4f, 1.0f, 0.8f, 1.0f);
+			
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			
 			int maxLevel = 9;
 						
 			ModelMatrix.main.pushMatrix();
-			Gdx.gl.glUniform4f(colorLoc, 0.9f, 0.9f, 0.9f, 1.0f);
+			shader.setMaterialDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
 			ModelMatrix.main.addTranslation(6, 0.4f, -6f);
 			ModelMatrix.main.addScale(10f, 0.2f, 10f);
-			ModelMatrix.main.setShaderMatrix();
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			BoxGraphic.drawSolidCube();
 			ModelMatrix.main.popMatrix();
 			
 			
 			ModelMatrix.main.pushMatrix();
-			Gdx.gl.glUniform4f(colorLoc, 0.8f, 0.8f, 0.2f, 1.0f);
+			shader.setMaterialDiffuse(0.8f, 0.8f, 0.2f, 1.0f);
 				
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
@@ -244,7 +219,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					{
 						ModelMatrix.main.addScale(1, 1, 0.2f);
 					}
-					ModelMatrix.main.setShaderMatrix();
+					shader.setModelMatrix(ModelMatrix.main.getMatrix());
 					BoxGraphic.drawSolidCube();
 					ModelMatrix.main.popMatrix();
 				}
@@ -256,11 +231,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			if(viewNum == 1)
 			{
-				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
+				shader.setMaterialDiffuse(1.0f, 0.3f, 0.1f, 1.0f);
 				
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
-				ModelMatrix.main.setShaderMatrix();
+				shader.setModelMatrix(ModelMatrix.main.getMatrix());
 				BoxGraphic.drawSolidCube();
 				ModelMatrix.main.popMatrix();
 			}
@@ -276,7 +251,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		display();
 
 	}
-
+/*
 	private void Look3D(Point3D eye, Point3D center, Vector3D up) {
 		
 		Vector3D n = Vector3D.difference(eye, center);
@@ -299,6 +274,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		matrixBuffer.rewind();
 		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
 	}
+	*/
 
 	@Override
 	public boolean keyDown(int keycode) {
