@@ -13,20 +13,8 @@ import com.badlogic.gdx.utils.BufferUtils;
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
 
 	Shader shader;
-
-
+	
 	private float angle;
-
-	private int renderingProgramID;
-	private int vertexShaderID;
-	private int fragmentShaderID;
-
-	private int positionLoc;
-	private int normalLoc;
-
-	private int modelMatrixLoc;
-	private int viewMatrixLoc;
-	private int projectionMatrixLoc;
 
 	public static int colorLoc;
 	
@@ -56,22 +44,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		maze = new Maze(15, 15);
 
 		Gdx.input.setInputProcessor(this);
-
-/*
-		float[] mm = new float[16];
-
-		mm[0] = 1.0f; mm[4] = 0.0f; mm[8] = 0.0f; mm[12] = 0.0f;
-		mm[1] = 0.0f; mm[5] = 1.0f; mm[9] = 0.0f; mm[13] = 0.0f;
-		mm[2] = 0.0f; mm[6] = 0.0f; mm[10] = 1.0f; mm[14] = 0.0f;
-		mm[3] = 0.0f; mm[7] = 0.0f; mm[11] = 0.0f; mm[15] = 1.0f;
-
-		modelMatrixBuffer = BufferUtils.newFloatBuffer(16);
-		modelMatrixBuffer.put(mm);
-		modelMatrixBuffer.rewind();
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrixBuffer);
-*/
-		
 
 		BoxGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
 		SphereGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
@@ -200,8 +172,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
 			shader.setLightDiffuse(s, 0.4f, c, 1.0f);
-			
-			
 			shader.setMaterialDiffuse(0.4f, 1.0f, 0.8f, 1.0f);
 			
 			ModelMatrix.main.pushMatrix();
@@ -209,55 +179,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
-
-					
+				
 			maze.drawMaze();
-
 			
-			int maxLevel = 9;
-			/*			
-			ModelMatrix.main.pushMatrix();
-			shader.setMaterialDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
-			ModelMatrix.main.addTranslation(6, 0.4f, -6f);
-			ModelMatrix.main.addScale(10f, 0.2f, 10f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			BoxGraphic.drawSolidCube();
-			ModelMatrix.main.popMatrix();
-			
-			
-			ModelMatrix.main.pushMatrix();
-			shader.setMaterialDiffuse(0.8f, 0.8f, 0.2f, 1.0f);
-				
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-				
-			ModelMatrix.main.pushMatrix();
-			for (int i = 0; i < maxLevel; i++)
-			{
-				ModelMatrix.main.addTranslation(1.0f, 0, 0);
-				ModelMatrix.main.pushMatrix();
-				for (int j = 0; j < maxLevel; j++)
-				{
-					ModelMatrix.main.addTranslation(0, 0, -1.0f);
-					ModelMatrix.main.pushMatrix();
-					if(i % 2 == 0) 
-					{
-						ModelMatrix.main.addScale(0.2f, 1, 1);
-					}
-					else
-					{
-						ModelMatrix.main.addScale(1, 1, 0.2f);
-					}
-					shader.setModelMatrix(ModelMatrix.main.getMatrix());
-					BoxGraphic.drawSolidCube();
-					ModelMatrix.main.popMatrix();
-				}
-				ModelMatrix.main.popMatrix();
-				}
-			ModelMatrix.main.popMatrix();
-			ModelMatrix.main.popMatrix();
-			ModelMatrix.main.popMatrix();
-			*/
 			if(viewNum == 1)
 			{
 				shader.setMaterialDiffuse(1.0f, 0.3f, 0.1f, 1.0f);
@@ -265,16 +189,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
 
-				//shader.setModelMatrix(ModelMatrix.main.getMatrix());
-				//BoxGraphic.drawSolidCube();
-
 				ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
 				shader.setModelMatrix(ModelMatrix.main.getMatrix());
 				SphereGraphic.drawSolidSphere();
 
-				
-				ModelMatrix.main.popMatrix();
-				
+				ModelMatrix.main.popMatrix();				
 			}
 		}
 	}
@@ -288,7 +207,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		display();
 
 	}
-/*
+
+	/*
 	private void Look3D(Point3D eye, Point3D center, Vector3D up) {
 		
 		Vector3D n = Vector3D.difference(eye, center);
