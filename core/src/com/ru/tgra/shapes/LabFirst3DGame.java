@@ -166,13 +166,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			float s = (float)Math.sin(angle * Math.PI / 180.0);
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
-			shader.setLightPosition(10.0f + c * 15.0f, 4.0f, -5.0f + s * 15.0f, 1.0f);
+			shader.setLightPosition(10.0f + 1 * 15.0f, 4.0f, -5.0f + 1 * 15.0f, 1.0f);
 			
 			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
-			shader.setLightDiffuse(s, 0.4f, c, 1.0f);
-			shader.setMaterialDiffuse(0.4f, 1.0f, 0.8f, 1.0f);
+			shader.setLightDiffuse(1, 0.4f, 1, 1.0f);
+			shader.setMaterialDiffuse(0.9f, 1.0f, 0.8f, 1.0f);
 			
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);
