@@ -210,8 +210,8 @@ public class LabFirst3DGame extends ApplicationAdapter {
 
 			shader.setLightPosition2(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 			
-			float s2 = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
-			float c2 = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
+			//float s2 = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
+			//float c2 = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
 
 			//shader.setLightColor(s2, 1.0f, c2, 1.0f);
