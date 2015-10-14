@@ -183,9 +183,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 
 			//shader.setLightDiffuse(s, 1.0f, c, 1.0f);
-			shader.setLightDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
+			
+			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);
 			
 			shader.setMaterialDiffuse(0.3f, 0.3f, 0.7f, 1.0f);
+			shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+
 			
 			shader.setShininess(20.0f);
 
