@@ -15,6 +15,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	Shader shader;
 	
 	private float angle;
+	private float objectRotationAngle;
 
 	public static int colorLoc;
 	
@@ -26,6 +27,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private Maze maze;
 	
 	private Sound sound;
+	private long track;
+	private float volume;
 
 	//private ModelMatrix modelMatrix;
 	
@@ -41,7 +44,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void create () {
-		
+		volume = 1;
 		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
 		//Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
 		
@@ -72,7 +75,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		Gdx.input.setCursorCatched(true);
 		sound = Gdx.audio.newSound(Gdx.files.internal("hall.mp3"));
-		sound.play(1);
+		track = sound.play(1);
 		
 	}
 
@@ -105,6 +108,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
 			//cam.slide(0, -3.0f * deltaTime, 0);
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+			if(volume == 1){
+				volume = 0;
+			}
+			else{
+				volume = 1;
+			}
+			sound.setVolume(track, volume);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -200,8 +212,29 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(7.5f, 10.0f, -14.0f);
+			//ModelMatrix.main.addRotationZ(45);
+			ModelMatrix.main.addScale(1, 2, 1);
+			objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
+			ModelMatrix.main.addRotationY(objectRotationAngle);
+			ModelMatrix.main.addTranslation(0, 0, 1);
+			ModelMatrix.main.addRotationX(-objectRotationAngle);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			BoxGraphic.drawSolidCube();
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
+			ModelMatrix.main.addRotationY(objectRotationAngle);
+			ModelMatrix.main.addTranslation(6, 0, 0);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
+			ModelMatrix.main.addRotationY(-objectRotationAngle);
+			ModelMatrix.main.addTranslation(0, 0, 8);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			//SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
 				
 			maze.drawMaze();

@@ -1,5 +1,6 @@
 package com.ru.tgra.lab1.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.ru.tgra.shapes.LabFirst3DGame;
@@ -10,7 +11,8 @@ public class DesktopLauncher {
 
 		config.title = "Lab1"; // or whatever you like
 		config.width = 1920;  //experiment with
-		config.height = 960;  //the window size
+		config.height = 720;  //the window size
+
 		config.x = 250;
 		config.y = 150;
 
