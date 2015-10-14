@@ -11,7 +11,6 @@ uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 
 uniform vec4 u_eyePosition;
-
 uniform vec4 u_lightPosition;
 
 varying vec4 v_normal;
@@ -45,9 +44,6 @@ void main()
 
 	// v_color = max(0, (dot(normal, vec4(0,0,1,0) / length(normal))) * u_color;
 	//v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0)) / length(normal)) * u_color;
-
-
-
 	//v_color = (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0))) / length(normal)) * u_color;
 	
 
