@@ -1,6 +1,5 @@
 package com.ru.tgra.shapes;
 
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -30,18 +29,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private long track;
 	private float volume;
 
-	//private ModelMatrix modelMatrix;
-	
-	public void drawExtraObject() {
-		ModelMatrix.main.pushMatrix();
-		Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.6f, 0.3f, 1.0f);
-		ModelMatrix.main.addTranslation(4, 4f, -4f);
-		ModelMatrix.main.addScale(2.0f, 2.0f, 2.0f);
-		//ModelMatrix.main.setShaderMatrix();
-		SphereGraphic.drawSolidSphere();
-		ModelMatrix.main.popMatrix();
-	}
-
 	@Override
 	public void create () {
 		win = true;
@@ -49,8 +36,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		
 		shader = new Shader();
 		maze = new Maze(15, 15);
-
-		
 
 		BoxGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
 		SphereGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
@@ -61,14 +46,12 @@ public class LabFirst3DGame extends ApplicationAdapter {
 
 		ModelMatrix.main = new ModelMatrix();
 		ModelMatrix.main.loadIdentityMatrix();
-		//ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
 		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(2.5f,1,-1.5f), new Vector3D(0,1,0));
-		//cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
@@ -76,7 +59,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		sound = Gdx.audio.newSound(Gdx.files.internal("hall.mp3"));
 		winSong = Gdx.audio.newSound(Gdx.files.internal("celebrate.mp3"));
 		track = sound.play(1);
-		
 	}
 	
 	private void update()
@@ -98,11 +80,9 @@ public class LabFirst3DGame extends ApplicationAdapter {
 				cam.slide(3.0f * deltaTime, 0, 0);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-				//cam.slide(0, 0, -3.0f * deltaTime);
 				cam.walkForward(3.0f * deltaTime);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-				//cam.slide(0, 0, 3.0f * deltaTime);
 				cam.walkForward(-3.0f * deltaTime);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.R)) {
@@ -127,11 +107,9 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			}
 			
 			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-				//cam.yaw(-90.0f * deltaTime);
 				cam.rotateY(90.0f * deltaTime);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-				//cam.yaw(90.0f * deltaTime);
 				cam.rotateY(-90.0f * deltaTime);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -148,7 +126,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 				}else{
 					sound.dispose();
 				}
-				
 				Gdx.app.exit();
 			}
 			
@@ -166,16 +143,12 @@ public class LabFirst3DGame extends ApplicationAdapter {
 				//fov += 30.0f * deltaTime;			
 			}
 		
-		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
-		cam.pitch(-0.2f * Gdx.input.getDeltaY());
-		
-		//do all updates to the game
+		cam.pitch(-0.2f * Gdx.input.getDeltaY());		
 	}
 	
 	private void display()
 	{
-		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glUniform4f(LabFirst3DGame.colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
 		for(int viewNum = 0; viewNum < 2; viewNum++)
@@ -191,12 +164,10 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			else
 			{
 				Gdx.gl.glViewport(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-				//orthoCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0,0,-1));
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
 				shader.setViewMatrix(orthoCam.getViewMatrix());
 				shader.setProjectionMatrix(orthoCam.getProjectionMatrix());
 				shader.setEyePosition(orthoCam.eye.x, orthoCam.eye.y, orthoCam.eye.z, 1.0f);
-
 			}
 		
 			ModelMatrix.main.loadIdentityMatrix();
@@ -204,7 +175,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			float s = (float)Math.sin(angle * Math.PI / 180.0);
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
-
 			shader.setLightPosition(10.0f, 4.0f, -10.0f, 1.0f);
 			//shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 
