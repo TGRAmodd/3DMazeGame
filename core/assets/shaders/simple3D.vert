@@ -13,15 +13,18 @@ uniform mat4 u_projectionMatrix;
 uniform vec4 u_eyePosition;
 
 uniform vec4 u_lightPosition;
+uniform vec4 u_lightPosition2;
 uniform vec4 u_lightColor;
+uniform vec4 u_lightColor2;
 
 uniform vec4 u_globalAmbient;
 
 uniform vec4 u_materialDiffuse;
 uniform vec4 u_materialSpecular;
 
-
 uniform float u_materialShininess;
+
+uniform vec4 u_materialEmission;
 
 varying vec4 v_normal;
 //varying vec4 v_s;
@@ -46,10 +49,9 @@ void main()
 	vec4 v = u_eyePosition - position; //direction to the camera
 	
 	
-	//for each light
+	// light 1
 	vec4 v_s = u_lightPosition - position; //direction to the light
 	vec4 v_h = v_s + v;
-	
 	
 	float lambert = max(0.0, dot(v_normal, v_s) / (length(v_normal) * length(v_s))); //The intensity of how the light hits the surfice.
 	float phong = max(0.0, dot(v_normal, v_h) / (length(v_normal) * length(v_h)));
@@ -57,11 +59,27 @@ void main()
 	vec4 diffuseColor = lambert * u_lightColor * u_materialDiffuse;
 	vec4 specularColor = pow(phong, u_materialShininess) * u_lightColor * u_materialSpecular;
 	
-	vec4 lightCalcColor = diffuseColor + specularColor; 
+	vec4 lightCalcColor1 = diffuseColor + specularColor; 
 	
-	//end for each light
+	//end light 1
 	
-	v_color = u_globalAmbient * u_materialDiffuse + lightCalcColor;
+	
+	
+	// light 2
+	v_s = u_lightPosition2 - position; //direction to the light
+	v_h = v_s + v;
+	
+	lambert = max(0.0, dot(v_normal, v_s) / (length(v_normal) * length(v_s))); //The intensity of how the light hits the surfice.
+	phong = max(0.0, dot(v_normal, v_h) / (length(v_normal) * length(v_h)));
+	
+	diffuseColor = lambert * u_lightColor2 * u_materialDiffuse;
+	specularColor = pow(phong, u_materialShininess) * u_lightColor2 * u_materialSpecular;
+	
+	vec4 lightCalcColor2 = diffuseColor + specularColor; 
+	
+	//end light 2
+	
+	v_color = u_globalAmbient * u_materialDiffuse + u_materialEmission + lightCalcColor1 + lightCalcColor2;
 	
 	
 	
