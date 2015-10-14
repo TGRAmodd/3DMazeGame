@@ -261,9 +261,9 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		// draw collidiable object
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
-		ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
 		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
 		ModelMatrix.main.addRotationY(objectRotationAngle);
+		ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		BoxGraphic.drawSolidCube();
 		ModelMatrix.main.popMatrix();
