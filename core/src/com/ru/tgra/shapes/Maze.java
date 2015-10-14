@@ -21,7 +21,7 @@ public class Maze {
 		r = new Random();
 		for(int i = 0; i < width; i++){
 				for(int j = 0; j < height; j++){
-					cells[i][j] = new Cell(r.nextBoolean(), r.nextBoolean());
+					cells[i][j] = new Cell(false,false);
 				}
 			
 		}
@@ -40,14 +40,17 @@ public class Maze {
 					cells[i][j] = new Cell(false, false);
 				}
 				if(i == width-2){
-					cells[i][j] = new Cell(r.nextBoolean(),true);
+					cells[i][j] = new Cell(false,true);
 				}
 				if(j == height -2){
-					cells[i][j] = new Cell(true, r.nextBoolean());
+					cells[i][j] = new Cell(true, false);
 				}
 			}
-		
-	}
+		}
+		if(width == 15 && height == 15){
+			MazeBuilder mb = new MazeBuilder();
+			mb.buildHardCodedMaze();
+		}
 	}
 	
 	public void drawMaze(){
@@ -114,4 +117,5 @@ public class Maze {
 			return cells[x-1][z];
 		}
 	}
+	
 }

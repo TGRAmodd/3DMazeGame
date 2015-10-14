@@ -41,7 +41,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	public void create () {
 		
 		shader = new Shader();
-		maze = new Maze(15, 17);
+		maze = new Maze(15, 15);
 
 		Gdx.input.setInputProcessor(this);
 
