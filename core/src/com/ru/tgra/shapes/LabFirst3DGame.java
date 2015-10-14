@@ -177,10 +177,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			//Directional light
 			shader.setLightColor4(0.2f, 0.2f, 0.2f, 1.0f);
 			
-			
-			//float s2 = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
-			//float c2 = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
-			
 
 			
 			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);

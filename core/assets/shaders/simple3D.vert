@@ -76,7 +76,7 @@ void main()
 	diffuseColor = lambert * u_lightColor2 * u_materialDiffuse;
 	specularColor = pow(phong, u_materialShininess) * u_lightColor2 * u_materialSpecular;
 	
-	vec4 lightCalcColor3 = diffuseColor + specularColor; 
+	vec4 lightCalcColor2 = diffuseColor + specularColor; 
 	
 	//end light 2
 	
@@ -92,7 +92,7 @@ void main()
 	diffuseColor = lambert * u_lightColor3 * u_materialDiffuse;
 	specularColor = pow(phong, u_materialShininess) * u_lightColor3 * u_materialSpecular;
 	
-	vec4 lightCalcColor2 = diffuseColor + specularColor; 
+	vec4 lightCalcColor3 = diffuseColor + specularColor; 
 	
 	//end light 3
 	
