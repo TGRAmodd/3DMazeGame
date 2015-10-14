@@ -3,8 +3,6 @@ package com.ru.tgra.shapes;
 import java.nio.FloatBuffer;
 //import javax.vecmath.Point3d;
 
-
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
 
@@ -82,13 +80,7 @@ public class Camera {
 		float originZ = eye.z;
 		int locX = -1;
 		int locZ = -1;
-		
-		
 		collisionCheck(0, 0, del, originX, originZ, locX, locZ, true);
-		
-		
-		
-		
 	}
 	
 	public void collisionCheck(float delU, float delV, float delN, float originX, float originZ, int locX, int locZ, boolean forward){
@@ -106,7 +98,6 @@ public class Camera {
 				break;
 			}
 		}
-
 		
 		if(forward){
 			eye.x -= delN*n.x;
@@ -183,8 +174,6 @@ public class Camera {
 			}
 		}
 		
-		
-		
 		//southwestNorthwall
 		cell = Maze.getSouth(locX, locZ);
 		if(cell != null){
@@ -202,14 +191,14 @@ public class Camera {
 			cell = Maze.getSouth(locX, locZ);
 			if(cell != null){
 				cell = Maze.getWest(locX, locZ-1);
-					if(cell != null){
-						if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
-							if(relX < padding && relZ > 1-padding){
-								eye.z = -locZ + 1-padding;
-								//System.out.println("westNortheastwall3");
-							}
+				if(cell != null){
+					if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
+						if(relX < padding && relZ > 1-padding){
+							eye.z = -locZ + 1-padding;
+							//System.out.println("westNortheastwall3");
 						}
 					}
+				}
 			}
 		}
 		
@@ -229,12 +218,12 @@ public class Camera {
 			//southEastwall
 			cell = Maze.getSouth(locX, locZ);
 			if(cell != null){
-					if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
-						if(relX > 1-padding && relZ > 1-padding){
-							eye.z = -locZ + 1-padding;
-							//System.out.println("westNortheastwall3");
-						}
+				if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
+					if(relX > 1-padding && relZ > 1-padding){
+						eye.z = -locZ + 1-padding;
+						//System.out.println("westNortheastwall3");
 					}
+				}
 			}
 		}
 		
@@ -378,6 +367,4 @@ public class Camera {
 		
 		return matrixBuffer;
 	}
-	
-	
 }
