@@ -72,6 +72,7 @@ public class Camera {
 		
 		
 		collisionCheck(delU, delV, delN, originX, originZ, locX, locZ, false);
+		extraObjectCollision(originX, originZ);
 	}
 	
 	public void walkForward(float del)
@@ -81,9 +82,23 @@ public class Camera {
 		int locX = -1;
 		int locZ = -1;
 		collisionCheck(0, 0, del, originX, originZ, locX, locZ, true);
+		extraObjectCollision(originX, originZ);
+	}
+	public void extraObjectCollision(float originX, float originZ){
+		if(eye.z < -14){
+			double xd = eye.x-7.5f;
+			double zd = eye.z-(-16f);
+			if(Math.sqrt(Math.pow(xd, 2)+Math.pow(zd, 2)) < 0.5f){
+				
+				eye.x = originX;
+				eye.z = originZ;
+			}
+		}
+
 	}
 	
 	public void collisionCheck(float delU, float delV, float delN, float originX, float originZ, int locX, int locZ, boolean forward){
+		
 		float padding = 0.35f;
 
 		for(int i = 0; i < Maze.width; i++){

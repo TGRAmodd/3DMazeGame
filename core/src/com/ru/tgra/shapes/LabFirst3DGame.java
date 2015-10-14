@@ -63,8 +63,8 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
-		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
-		
+		//cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
@@ -230,6 +230,17 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	}
 	
 	public void drawExtraObjects(){
+		// draw collidiable object
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
+		ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
+		ModelMatrix.main.addRotationY(objectRotationAngle);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+		
+		//draw floating objects
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 10.0f, -14.0f);
 		//ModelMatrix.main.addRotationZ(45);
