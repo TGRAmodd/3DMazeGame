@@ -20,12 +20,17 @@ public class Shader {
 		
 		private int eyePosLoc;
 
+		private int globalAmbLoc;
 		//private int colorLoc;
 		
 		private int lightPosLoc;
-		private int lightDifLoc;
+		private int lightPosLoc2;
+		private int lightColorLoc;
+		private int lightColorLoc2;
 		private int matDifLoc;
+		private int matSpecLoc;
 		private int matShineLoc;
+		private int matEmissionLoc;
 
 		
 	public Shader() {
@@ -69,10 +74,15 @@ public class Shader {
 		
 		eyePosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_eyePosition");
 
+		globalAmbLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_globalAmbient");
 		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
-		lightDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse");
+		lightPosLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition2");
+		lightColorLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor");
+		lightColorLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor2");
 		matDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
+		matSpecLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialSpecular");
 		matShineLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialShininess");
+		matEmissionLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialEmission");
 
 		
 		Gdx.gl.glUseProgram(renderingProgramID);
@@ -90,21 +100,46 @@ public class Shader {
 		Gdx.gl.glUniform4f(eyePosLoc, x, y, z, w);
 	}
 	
-	public void setLightPosition(float x, float y, float z, float w){
+	public void setGlobalAmbient(float r, float g, float b, float a){
 		
+		Gdx.gl.glUniform4f(globalAmbLoc, r, g, b, a);
+	}
+	
+	public void setLightPosition(float x, float y, float z, float w){
+	
 		Gdx.gl.glUniform4f(lightPosLoc, x, y, z, w);
 	}
 	
-	public void setLightDiffuse(float r, float g, float b, float a){
+	public void setLightPosition2(float x, float y, float z, float w){
 		
-		Gdx.gl.glUniform4f(lightDifLoc, r, g, b, a);
+		Gdx.gl.glUniform4f(lightPosLoc2, x, y, z, w);
+	}
+
+	public void setLightColor(float r, float g, float b, float a){
+		
+		Gdx.gl.glUniform4f(lightColorLoc, r, g, b, a);
+	}
+
+	public void setLightColor2(float r, float g, float b, float a){
+		
+		Gdx.gl.glUniform4f(lightColorLoc2, r, g, b, a);
 	}
 
 	public void setMaterialDiffuse(float r, float g, float b, float a){
 		
 		Gdx.gl.glUniform4f(matDifLoc, r, g, b, a);
 	}
+	
+	public void setMaterialSpecular(float r, float g, float b, float a){
+		
+		Gdx.gl.glUniform4f(matSpecLoc, r, g, b, a);
+	}
 
+	public void setMaterialEmission(float r, float g, float b, float a){
+		
+		Gdx.gl.glUniform4f(matEmissionLoc, r, g, b, a);
+	}
+	
 	public void setShininess(float shine){
 		
 		Gdx.gl.glUniform1f(matShineLoc, shine);
