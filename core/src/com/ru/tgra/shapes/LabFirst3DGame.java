@@ -30,7 +30,8 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private float volume;
 
 	@Override
-	public void create () {
+	public void create () 
+	{
 		win = true;
 		volume = 1;
 		
@@ -65,64 +66,68 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		
-			if(cam.eye.z < -13 && win){
-				win = false;
+		/* If we have reached the area where the z coord is less than -13 then we have reached 
+		 * our end goal, quit playing our stressful music and start playing celebratory music */
+		if(cam.eye.z < -13 && win){
+			win = false;
+			sound.dispose();
+			winTrack = winSong.play(1);
+		}
+		
+		angle += 180.0f * deltaTime;
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+			cam.slide(-3.0f * deltaTime, 0, 0);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+			cam.slide(3.0f * deltaTime, 0, 0);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+			cam.walkForward(3.0f * deltaTime);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+			cam.walkForward(-3.0f * deltaTime);
+		}
+		
+		/* Mute functionality */
+		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+			if(volume == 1){
+				volume = 0;
+			}
+			else{
+				volume = 1;
+			}
+			if(win){
+				sound.setVolume(track, volume);
+			}
+			else{
+				winSong.setVolume(winTrack, volume);
+			}
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			cam.rotateY(90.0f * deltaTime);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			cam.rotateY(-90.0f * deltaTime);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			cam.pitch(90.0f * deltaTime);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			cam.pitch(-90.0f * deltaTime);
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			Gdx.graphics.setDisplayMode(500, 500, false);
+			if(!win){
+				winSong.dispose();
+			}else{
 				sound.dispose();
-				winTrack = winSong.play(1);
 			}
-			
-			angle += 180.0f * deltaTime;
-			
-			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-				cam.slide(-3.0f * deltaTime, 0, 0);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-				cam.slide(3.0f * deltaTime, 0, 0);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-				cam.walkForward(3.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-				cam.walkForward(-3.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-				if(volume == 1){
-					volume = 0;
-				}
-				else{
-					volume = 1;
-				}
-				if(win){
-					sound.setVolume(track, volume);
-				}
-				else{
-					winSong.setVolume(winTrack, volume);
-				}
-			}
-			
-			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-				cam.rotateY(90.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-				cam.rotateY(-90.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-				cam.pitch(90.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-				cam.pitch(-90.0f * deltaTime);
-			}
-			
-			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-				Gdx.graphics.setDisplayMode(500, 500, false);
-				if(!win){
-					winSong.dispose();
-				}else{
-					sound.dispose();
-				}
-				Gdx.app.exit();
-			}
-			
+			Gdx.app.exit();
+		}
+		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
 		cam.pitch(-0.2f * Gdx.input.getDeltaY());		
 	}
@@ -221,9 +226,13 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		display();
 
 	}
-	
-	public void drawExtraObjects(){
-		// draw collidable object
+	/* A method used to draw the extra objects in our project. They are best seen
+	 * when the end of the maze has been reached. The objects are a large cross
+	 * that the user can't pass through, a flying box with spheres orbiting it,
+	 * and two other spheres.
+	 */
+	public void drawExtraObjects() {
+		//draw collidable object
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
 
@@ -246,7 +255,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		//draw floating objects
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 10.0f, -14.0f);
-		//ModelMatrix.main.addRotationZ(45);
 		ModelMatrix.main.addScale(1, 2, 1);
 		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
 		ModelMatrix.main.addRotationY(objectRotationAngle);
@@ -268,7 +276,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		SphereGraphic.drawSolidSphere();
 		ModelMatrix.main.popMatrix();
-		//SphereGraphic.drawSolidSphere();
 		ModelMatrix.main.popMatrix();
 	}
 }
