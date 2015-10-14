@@ -183,23 +183,22 @@ public class Camera {
 					if(relX < padding && relZ > 1-padding){
 						eye.x = locX + padding;
 					}
-				}
-			}
-		}else{
-			//southWestEastwall
-			cell = Maze.getSouth(locX, locZ);
-			if(cell != null){
-				cell = Maze.getWest(locX, locZ-1);
-				if(cell != null){
-					if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
-						if(relX < padding && relZ > 1-padding){
-							eye.z = -locZ + 1-padding;
+				}else{
+					//southWestEastwall
+					cell = Maze.getSouth(locX, locZ);
+					if(cell != null){
+						cell = Maze.getWest(locX, locZ-1);
+						if(cell != null){
+							if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
+								if(relX < padding && relZ > 1-padding){
+									eye.z = -locZ + 1-padding;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-		
 		//southeastNorthwall
 		cell = Maze.getSouth(locX, locZ);
 		if(cell != null){
@@ -210,14 +209,15 @@ public class Camera {
 						eye.x = locX + 1-padding;
 					}
 				}
-			}
-		}else{
-			//southEastwall
-			cell = Maze.getSouth(locX, locZ);
-			if(cell != null){
-				if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
-					if(relX > 1-padding && relZ > 1-padding){
-						eye.z = -locZ + 1-padding;
+				else{
+					//southEastwall
+					cell = Maze.getSouth(locX, locZ);
+					if(cell != null){
+						if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
+							if(relX > 1-padding && relZ > 1-padding){
+								eye.z = -locZ + 1-padding;
+							}
+						}
 					}
 				}
 			}
