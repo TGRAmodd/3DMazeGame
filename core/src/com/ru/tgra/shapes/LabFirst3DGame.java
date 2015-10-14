@@ -24,6 +24,9 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private Maze maze;
 	
 	private Sound sound;
+	private Sound winSong;
+	private boolean win;
+	private long winTrack;
 	private long track;
 	private float volume;
 
@@ -41,6 +44,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		win = true;
 		volume = 1;
 		
 		shader = new Shader();
@@ -63,13 +67,14 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
-		//cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
-		cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(2.5f,1,-1.5f), new Vector3D(0,1,0));
+		//cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
 		Gdx.input.setCursorCatched(true);
 		sound = Gdx.audio.newSound(Gdx.files.internal("hall.mp3"));
+		winSong = Gdx.audio.newSound(Gdx.files.internal("celebrate.mp3"));
 		track = sound.play(1);
 		
 	}
@@ -77,73 +82,89 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private void update()
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
-
-		angle += 180.0f * deltaTime;
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			//cam.slide(0, 0, -3.0f * deltaTime);
-			cam.walkForward(3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			//cam.slide(0, 0, 3.0f * deltaTime);
-			cam.walkForward(-3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			//cam.slide(0, 3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			//cam.slide(0, -3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-			if(volume == 1){
-				volume = 0;
+			if(cam.eye.z < -13 && win){
+				win = false;
+				sound.dispose();
+				winTrack = winSong.play(1);
 			}
-			else{
-				volume = 1;
+			
+			angle += 180.0f * deltaTime;
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+				cam.slide(-3.0f * deltaTime, 0, 0);
 			}
-			sound.setVolume(track, volume);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//cam.yaw(-90.0f * deltaTime);
-			cam.rotateY(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			//cam.yaw(90.0f * deltaTime);
-			cam.rotateY(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(-90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-			Gdx.graphics.setDisplayMode(500, 500, false);
-			sound.dispose();
-			Gdx.app.exit();
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			//cam.roll(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-			//cam.roll(90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-			//fov -= 30.0f * deltaTime;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			//fov += 30.0f * deltaTime;			
-		}
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+				cam.slide(3.0f * deltaTime, 0, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+				//cam.slide(0, 0, -3.0f * deltaTime);
+				cam.walkForward(3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+				//cam.slide(0, 0, 3.0f * deltaTime);
+				cam.walkForward(-3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+				//cam.slide(0, 3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+				//cam.slide(0, -3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+				if(volume == 1){
+					volume = 0;
+				}
+				else{
+					volume = 1;
+				}
+				if(win){
+					sound.setVolume(track, volume);
+				}
+				else{
+					winSong.setVolume(winTrack, volume);
+				}
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+				//cam.yaw(-90.0f * deltaTime);
+				cam.rotateY(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+				//cam.yaw(90.0f * deltaTime);
+				cam.rotateY(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+				cam.pitch(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+				cam.pitch(-90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+				Gdx.graphics.setDisplayMode(500, 500, false);
+				if(!win){
+					winSong.dispose();
+				}else{
+					sound.dispose();
+				}
+				
+				Gdx.app.exit();
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+				//cam.roll(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+				//cam.roll(90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.T)) {
+				//fov -= 30.0f * deltaTime;
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.G)) {
+				//fov += 30.0f * deltaTime;			
+			}
 		
 		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
@@ -259,9 +280,19 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		// draw collidiable object
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
-		ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+
+		ModelMatrix.main.addScale(0.5f, 9f, 0.5f);
 		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
 		ModelMatrix.main.addRotationY(objectRotationAngle);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+		
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(7.5f, 4, -16.0f);
+		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
+		ModelMatrix.main.addRotationY(objectRotationAngle);
+		ModelMatrix.main.addScale(0.5f, 0.5f, 3f);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		BoxGraphic.drawSolidCube();
 		ModelMatrix.main.popMatrix();
