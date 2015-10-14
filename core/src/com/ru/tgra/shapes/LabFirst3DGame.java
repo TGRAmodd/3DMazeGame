@@ -22,6 +22,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private float fov = 100.0f;
 	
 	private Maze maze;
+	private float gravity;
 	
 	private Sound sound;
 	private long track;
@@ -41,6 +42,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		gravity = 4f;
 		volume = 1;
 		
 		shader = new Shader();
@@ -63,8 +65,8 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
-		//cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
-		cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		//cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
@@ -77,73 +79,73 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private void update()
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
-
-		angle += 180.0f * deltaTime;
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			//cam.slide(0, 0, -3.0f * deltaTime);
-			cam.walkForward(3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			//cam.slide(0, 0, 3.0f * deltaTime);
-			cam.walkForward(-3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			//cam.slide(0, 3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			//cam.slide(0, -3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-			if(volume == 1){
-				volume = 0;
+			
+			angle += 180.0f * deltaTime;
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+				cam.slide(-3.0f * deltaTime, 0, 0);
 			}
-			else{
-				volume = 1;
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+				cam.slide(3.0f * deltaTime, 0, 0);
 			}
-			sound.setVolume(track, volume);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//cam.yaw(-90.0f * deltaTime);
-			cam.rotateY(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			//cam.yaw(90.0f * deltaTime);
-			cam.rotateY(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(-90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-			Gdx.graphics.setDisplayMode(500, 500, false);
-			sound.dispose();
-			Gdx.app.exit();
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			//cam.roll(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-			//cam.roll(90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-			//fov -= 30.0f * deltaTime;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			//fov += 30.0f * deltaTime;			
-		}
+			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+				//cam.slide(0, 0, -3.0f * deltaTime);
+				cam.walkForward(3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+				//cam.slide(0, 0, 3.0f * deltaTime);
+				cam.walkForward(-3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+				//cam.slide(0, 3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+				//cam.slide(0, -3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+				if(volume == 1){
+					volume = 0;
+				}
+				else{
+					volume = 1;
+				}
+				sound.setVolume(track, volume);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+				//cam.yaw(-90.0f * deltaTime);
+				cam.rotateY(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+				//cam.yaw(90.0f * deltaTime);
+				cam.rotateY(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+				cam.pitch(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+				cam.pitch(-90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+				Gdx.graphics.setDisplayMode(500, 500, false);
+				sound.dispose();
+				Gdx.app.exit();
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+				//cam.roll(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+				//cam.roll(90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.T)) {
+				//fov -= 30.0f * deltaTime;
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.G)) {
+				//fov += 30.0f * deltaTime;			
+			}
 		
 		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
@@ -184,22 +186,48 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
 
-			//shader.setLightPosition( 10.0f, 4.0f, -10.0f, 1.0f);
-			shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
+			shader.setLightPosition(10.0f, 4.0f, -10.0f, 1.0f);
+			//shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 
+			shader.setLightPosition2(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 			
-			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
-			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
+			float s2 = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
+			float c2 = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
 
-			//shader.setLightDiffuse(s, 1.0f, c, 1.0f);
-			shader.setLightDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+			//shader.setLightColor(s2, 1.0f, c2, 1.0f);
+			shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setLightColor2(1.0f, 0.5f, 0.5f, 1.0f);
+			
+			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);
+			
+			shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setMaterialDiffuse(0, 0, 0, 1);
+			shader.setMaterialSpecular(0, 0, 0, 1);
+			
+
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(10.0f, 4.0f, -10.0f);
+			//ModelMatrix.main.addTranslation(10 * s + 8.5f, 4.0f, 10 * c - 8.5f);
+			ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			
+			
 			
 			shader.setMaterialDiffuse(0.3f, 0.3f, 0.7f, 1.0f);
+			shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setMaterialEmission(0, 0, 0, 1);
+			shader.setShininess(30.0f);
 			
-			shader.setShininess(20.0f);
 
-			
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(8.0f, 10.0f, -8.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+
 			drawExtraObjects();
 			
 				
