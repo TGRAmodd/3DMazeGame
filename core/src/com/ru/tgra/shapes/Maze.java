@@ -1,15 +1,10 @@
 package com.ru.tgra.shapes;
 
-//import com.ru.tgra.shapes.LabFirst3DGame;
-import java.util.Random;
-
-
 
 public class Maze {
 	public static Cell[][] cells;
 	public static int width;
 	public static int height;
-	private Random r;
 	
 	Shader shader;
 	
@@ -18,7 +13,6 @@ public class Maze {
 		Maze.width = width;
 		Maze.height = height;
 		cells = new Cell[width][height];
-		r = new Random();
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
 				if(i == 0){
@@ -50,16 +44,7 @@ public class Maze {
 	public void drawMaze(){
 		ModelMatrix.main.pushMatrix();
 		
-		/*NORTH WALL
-		ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(0,0,-20);
-			ModelMatrix.main.addScale(20, 20, 0.1f);
-			ModelMatrix.main.setShaderMatrix();
-			BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
-		*/
 		//floor
-		
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(0, -50f, 0);
 		ModelMatrix.main.addScale(50, 100f, 50f);
