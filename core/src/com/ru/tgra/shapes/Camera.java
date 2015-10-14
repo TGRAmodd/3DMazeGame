@@ -83,6 +83,7 @@ public class Camera {
 		int locZ = -1;
 		collisionCheck(0, 0, del, originX, originZ, locX, locZ, true);
 		extraObjectCollision(originX, originZ);
+		
 	}
 	public void extraObjectCollision(float originX, float originZ){
 		if(eye.z < -14){
@@ -95,6 +96,10 @@ public class Camera {
 			}
 		}
 
+	}
+	
+	public void fall(float delU, float delV, float delN){
+		eye.y += delU*u.y + delV*v.y + delN*n.y;
 	}
 	
 	public void collisionCheck(float delU, float delV, float delN, float originX, float originZ, int locX, int locZ, boolean forward){

@@ -22,6 +22,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private float fov = 100.0f;
 	
 	private Maze maze;
+	private float gravity;
 	
 	private Sound sound;
 	private long track;
@@ -41,6 +42,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		gravity = 4f;
 		volume = 1;
 		
 		shader = new Shader();
@@ -63,8 +65,8 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
-		//cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
-		cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		//cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
@@ -77,73 +79,73 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	private void update()
 	{
 		float deltaTime = Gdx.graphics.getDeltaTime();
-
-		angle += 180.0f * deltaTime;
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			//cam.slide(0, 0, -3.0f * deltaTime);
-			cam.walkForward(3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			//cam.slide(0, 0, 3.0f * deltaTime);
-			cam.walkForward(-3.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			//cam.slide(0, 3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			//cam.slide(0, -3.0f * deltaTime, 0);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-			if(volume == 1){
-				volume = 0;
+			
+			angle += 180.0f * deltaTime;
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+				cam.slide(-3.0f * deltaTime, 0, 0);
 			}
-			else{
-				volume = 1;
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+				cam.slide(3.0f * deltaTime, 0, 0);
 			}
-			sound.setVolume(track, volume);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//cam.yaw(-90.0f * deltaTime);
-			cam.rotateY(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			//cam.yaw(90.0f * deltaTime);
-			cam.rotateY(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.pitch(90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.pitch(-90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-			Gdx.graphics.setDisplayMode(500, 500, false);
-			sound.dispose();
-			Gdx.app.exit();
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			//cam.roll(-90.0f * deltaTime);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-			//cam.roll(90.0f * deltaTime);
-		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-			//fov -= 30.0f * deltaTime;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-			//fov += 30.0f * deltaTime;			
-		}
+			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+				//cam.slide(0, 0, -3.0f * deltaTime);
+				cam.walkForward(3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+				//cam.slide(0, 0, 3.0f * deltaTime);
+				cam.walkForward(-3.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+				//cam.slide(0, 3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+				//cam.slide(0, -3.0f * deltaTime, 0);
+			}
+			if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+				if(volume == 1){
+					volume = 0;
+				}
+				else{
+					volume = 1;
+				}
+				sound.setVolume(track, volume);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+				//cam.yaw(-90.0f * deltaTime);
+				cam.rotateY(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+				//cam.yaw(90.0f * deltaTime);
+				cam.rotateY(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+				cam.pitch(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+				cam.pitch(-90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+				Gdx.graphics.setDisplayMode(500, 500, false);
+				sound.dispose();
+				Gdx.app.exit();
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+				//cam.roll(-90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+				//cam.roll(90.0f * deltaTime);
+			}
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.T)) {
+				//fov -= 30.0f * deltaTime;
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.G)) {
+				//fov += 30.0f * deltaTime;			
+			}
 		
 		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
