@@ -184,7 +184,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
 
-			shader.setLightPosition(10.0f, 4.0f, -10.0f, 1.0f);
+			//shader.setLightPosition(10.0f, 4.0f, -10.0f, 1.0f);
 			//shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 
 			shader.setLightPosition2(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
@@ -199,7 +199,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			
 			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);
 			
-			shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);
+			//shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);
 			shader.setMaterialDiffuse(0, 0, 0, 1);
 			shader.setMaterialSpecular(0, 0, 0, 1);
 			

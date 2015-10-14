@@ -16,6 +16,7 @@ uniform vec4 u_lightPosition;
 uniform vec4 u_lightPosition2;
 uniform vec4 u_lightColor;
 uniform vec4 u_lightColor2;
+uniform vec4 u_lightColor3;
 
 uniform vec4 u_globalAmbient;
 
@@ -79,9 +80,17 @@ void main()
 	
 	//end light 2
 	
-	v_color = u_globalAmbient * u_materialDiffuse + u_materialEmission + lightCalcColor1 + lightCalcColor2;
+	
+	// light 3
+
+	vec4 lightCalcColor3 = (dot(normal, vec4(0,0,1,0)) / length(normal)) * u_lightColor3;
+	//vec4 lightCalcColor3 = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0)) / length(normal)) * u_lightColor3);
+	
+	//end light 3
 	
 	
+	
+	v_color = u_globalAmbient * u_materialDiffuse + u_materialEmission + lightCalcColor1 + lightCalcColor2 + lightCalcColor3;
 	
 	
 	
@@ -91,7 +100,7 @@ void main()
 	//eye coordinates
 
 	// v_color = max(0, (dot(normal, vec4(0,0,1,0) / length(normal))) * u_color;
-	//v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0)) / length(normal)) * u_color;
+	//v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0)) / length(normal)) * u_color);
 	//v_color = (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0))) / length(normal)) * u_color;
 	
 

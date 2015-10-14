@@ -27,6 +27,7 @@ public class Shader {
 		private int lightPosLoc2;
 		private int lightColorLoc;
 		private int lightColorLoc2;
+		private int lightColorLoc3;
 		private int matDifLoc;
 		private int matSpecLoc;
 		private int matShineLoc;
@@ -79,6 +80,7 @@ public class Shader {
 		lightPosLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition2");
 		lightColorLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor");
 		lightColorLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor2");
+		lightColorLoc3			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor3");
 		matDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
 		matSpecLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialSpecular");
 		matShineLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialShininess");
@@ -123,6 +125,11 @@ public class Shader {
 	public void setLightColor2(float r, float g, float b, float a){
 		
 		Gdx.gl.glUniform4f(lightColorLoc2, r, g, b, a);
+	}
+
+	public void setLightColor3(float r, float g, float b, float a){
+		
+		Gdx.gl.glUniform4f(lightColorLoc3, r, g, b, a);
 	}
 
 	public void setMaterialDiffuse(float r, float g, float b, float a){
