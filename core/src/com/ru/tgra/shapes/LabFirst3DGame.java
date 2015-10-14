@@ -203,14 +203,11 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
 			
-			
-			
 			shader.setMaterialDiffuse(0.3f, 0.3f, 0.7f, 1.0f);
 			shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
 			shader.setMaterialEmission(0, 0, 0, 1);
 			shader.setShininess(30.0f);
 			
-
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(8.0f, 10.0f, -8.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
@@ -218,7 +215,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			ModelMatrix.main.popMatrix();
 
 			drawExtraObjects();
-			
 				
 			maze.drawMaze();
 			
@@ -247,7 +243,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 	}
 	
 	public void drawExtraObjects(){
-		// draw collidiable object
+		// draw collidable object
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
 
@@ -295,6 +291,4 @@ public class LabFirst3DGame extends ApplicationAdapter {
 		//SphereGraphic.drawSolidSphere();
 		ModelMatrix.main.popMatrix();
 	}
-
-
 }
