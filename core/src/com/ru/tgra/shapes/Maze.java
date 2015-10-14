@@ -25,6 +25,29 @@ public class Maze {
 				}
 			
 		}
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < height; j++){
+				if(i == 0){
+					cells[i][j] = new Cell(false, true);
+				}
+				if(j == 0){
+					cells[i][j] = new Cell(true, false);
+				}
+				if(i == width-1){
+					cells[i][j] = new Cell(false, false);
+				}
+				if(j == height-1){
+					cells[i][j] = new Cell(false, false);
+				}
+				if(i == width-2){
+					cells[i][j] = new Cell(r.nextBoolean(),true);
+				}
+				if(j == height -2){
+					cells[i][j] = new Cell(true, r.nextBoolean());
+				}
+			}
+		
+	}
 	}
 	
 	public void drawMaze(){
