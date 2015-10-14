@@ -4,10 +4,6 @@ precision mediump float;
 #endif
 
 
-
-//varying vec4 v_normal;
-//varying vec4 v_s;
-//varying vec4 v_h;
 varying vec4 v_color;
 
 void main()

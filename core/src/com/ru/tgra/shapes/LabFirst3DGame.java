@@ -191,7 +191,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			else
 			{
 				Gdx.gl.glViewport(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-				//orthoCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0,0,-1));
 				orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0,0,-1));
 				shader.setViewMatrix(orthoCam.getViewMatrix());
 				shader.setProjectionMatrix(orthoCam.getProjectionMatrix());
@@ -204,30 +203,51 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			float s = (float)Math.sin(angle * Math.PI / 180.0);
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
+			//Light 1
+			shader.setLightPosition(4 * s + 10.0f, 7.0f,4 * c -10.0f, 1.0f);
+			shader.setLightColor(1.0f, 0.3f, 0.3f, 1.0f);
 
-			//shader.setLightPosition(10.0f, 4.0f, -10.0f, 1.0f);
-			//shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
+			//Light 2
+			shader.setLightPosition2(4 * s + 4.0f, 7.0f, 4 * c - 6.0f, 1.0f);
+			shader.setLightColor2(0.3f, 1.0f, 0.3f, 1.0f);
 
-			shader.setLightPosition2(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
+			//Light 3
+			shader.setLightPosition3(4 * s + 8.0f, 7.0f, 4 * c -1.0f, 1.0f);
+			shader.setLightColor3(0.3f, 0.3f, 1.0f, 1.0f);
+
+			//Directional light
+			shader.setLightColor4(0.2f, 0.2f, 0.2f, 1.0f);
+			
 			
 			float s2 = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
 			float c2 = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI / 180.0));
 			
 
-			//shader.setLightColor(s2, 1.0f, c2, 1.0f);
-			shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
-			shader.setLightColor2(1.0f, 0.5f, 0.5f, 1.0f);
 			
 			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);
-			
-			//shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);
 			shader.setMaterialDiffuse(0, 0, 0, 1);
 			shader.setMaterialSpecular(0, 0, 0, 1);
 			
-
+			//Lightbulp 1
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(10.0f, 4.0f, -10.0f);
-			//ModelMatrix.main.addTranslation(10 * s + 8.5f, 4.0f, 10 * c - 8.5f);
+			ModelMatrix.main.addTranslation(4 * s + 10.0f, 7.0f,4 * c -10.0f);
+			ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			
+			//Lightbulp 2
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(4 * s + 4.0f, 7.0f, 4 * c - 6.0f);
+			ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			
+			//Lightbulp 3
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(4 * s + 8.0f, 7.0f, 4 * c - 1.0f);
 			ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
@@ -254,7 +274,7 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			
 			if(viewNum == 1)
 			{
-				shader.setMaterialDiffuse(1.0f, 0.3f, 0.1f, 1.0f);
+				//shader.setMaterialDiffuse(1.0f, 0.3f, 0.1f, 1.0f);
 				
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
