@@ -80,6 +80,7 @@ public class Shader {
 		globalAmbLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_globalAmbient");
 		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
 		lightPosLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition2");
+		lightPosLoc3			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition3");
 		lightColorLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor");
 		lightColorLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor2");
 		lightColorLoc3			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightColor3");
