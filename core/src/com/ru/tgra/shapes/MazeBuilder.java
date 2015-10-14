@@ -3,6 +3,10 @@ package com.ru.tgra.shapes;
 public class MazeBuilder {
 	public void buildHardCodedMaze(){
 		Maze.cells[13][0] = new Cell(true,false);
+		Maze.cells[0][13] = new Cell(false,true);
+		Maze.cells[0][0] = new Cell(false,false);
+		Maze.cells[14][13] = new Cell(false,false);
+		Maze.cells[13][14] = new Cell(false,false);
 		/* Row 1 */
 		Maze.cells[1][1] = new Cell(false,false);
 		Maze.cells[2][1] = new Cell(true,false);
@@ -60,7 +64,7 @@ public class MazeBuilder {
 		Maze.cells[9][4] = new Cell(true,false);
 		Maze.cells[10][4] = new Cell(false,true);
 		Maze.cells[11][4] = new Cell(false,false);
-		Maze.cells[12][4] = new Cell(true,false);
+		Maze.cells[12][4] = new Cell(true,true);
 		Maze.cells[13][4] = new Cell(false,true);
 		
 		/* Row 5 */
@@ -108,6 +112,7 @@ public class MazeBuilder {
 		Maze.cells[12][7] = new Cell(true,false);
 		Maze.cells[13][7] = new Cell(false,true);
 		
+		
 		/* Row 8 */
 		Maze.cells[1][8] = new Cell(true,false);
 		Maze.cells[2][8] = new Cell(false,true);
@@ -135,36 +140,6 @@ public class MazeBuilder {
 		Maze.cells[9][9] = new Cell(true,false);
 		Maze.cells[10][9] = new Cell(false,true);
 		Maze.cells[11][9] = new Cell(false,false);
-		Maze.cells[12][9] = new Cell(false,true);
-		Maze.cells[13][9] = new Cell(false,true);
-		
-		/* Row 8 */
-		Maze.cells[1][8] = new Cell(false,false);
-		Maze.cells[2][8] = new Cell(true,true);
-		Maze.cells[3][8] = new Cell(false,true);
-		Maze.cells[4][8] = new Cell(false,false);
-		Maze.cells[5][8] = new Cell(true,true);
-		Maze.cells[6][8] = new Cell(true,true);
-		Maze.cells[7][8] = new Cell(false,false);
-		Maze.cells[8][8] = new Cell(true,false);
-		Maze.cells[9][8] = new Cell(true,false);
-		Maze.cells[10][8] = new Cell(false,false);
-		Maze.cells[11][8] = new Cell(false,true);
-		Maze.cells[12][8] = new Cell(false,true);
-		Maze.cells[13][8] = new Cell(false,true);
-		
-		/* Row 9 */
-		Maze.cells[1][9] = new Cell(true,false);
-		Maze.cells[2][9] = new Cell(false,true);
-		Maze.cells[3][9] = new Cell(false,true);
-		Maze.cells[4][9] = new Cell(true,true);
-		Maze.cells[5][9] = new Cell(false,false);
-		Maze.cells[6][9] = new Cell(false,true);
-		Maze.cells[7][9] = new Cell(true,true);
-		Maze.cells[8][9] = new Cell(false,false);
-		Maze.cells[9][9] = new Cell(true,false);
-		Maze.cells[10][9] = new Cell(true,true);
-		Maze.cells[11][9] = new Cell(true,true);
 		Maze.cells[12][9] = new Cell(false,true);
 		Maze.cells[13][9] = new Cell(false,true);
 		
@@ -202,7 +177,7 @@ public class MazeBuilder {
 		Maze.cells[12][11] = new Cell(false,true);
 		Maze.cells[13][11] = new Cell(false,true);
 		
-		/* Row 10 */
+		/* Row 12 */
 		Maze.cells[1][12] = new Cell(false,true);
 		Maze.cells[2][12] = new Cell(false,true);
 		Maze.cells[3][12] = new Cell(false,true);

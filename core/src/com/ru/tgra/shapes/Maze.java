@@ -20,12 +20,6 @@ public class Maze {
 		cells = new Cell[width][height];
 		r = new Random();
 		for(int i = 0; i < width; i++){
-				for(int j = 0; j < height; j++){
-					cells[i][j] = new Cell(false,false);
-				}
-			
-		}
-		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){
 				if(i == 0){
 					cells[i][j] = new Cell(false, true);
