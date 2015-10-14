@@ -3,7 +3,6 @@ package com.ru.tgra.shapes;
 import java.nio.FloatBuffer;
 //import javax.vecmath.Point3d;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
 
 public class Camera {
@@ -96,10 +95,6 @@ public class Camera {
 			}
 		}
 
-	}
-	
-	public void fall(float delU, float delV, float delN){
-		eye.y += delU*u.y + delV*v.y + delN*n.y;
 	}
 	
 	public void collisionCheck(float delU, float delV, float delN, float originX, float originZ, int locX, int locZ, boolean forward){
