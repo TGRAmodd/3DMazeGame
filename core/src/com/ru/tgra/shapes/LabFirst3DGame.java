@@ -85,12 +85,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 				cam.walkForward(-3.0f * deltaTime);
 			}
-			if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-				//cam.slide(0, 3.0f * deltaTime, 0);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-				//cam.slide(0, -3.0f * deltaTime, 0);
-			}
 			if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 				if(volume == 1){
 					volume = 0;
@@ -129,20 +123,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 				Gdx.app.exit();
 			}
 			
-			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-				//cam.roll(-90.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.E)) {
-				//cam.roll(90.0f * deltaTime);
-			}
-			
-			if(Gdx.input.isKeyPressed(Input.Keys.T)) {
-				//fov -= 30.0f * deltaTime;
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.G)) {
-				//fov += 30.0f * deltaTime;			
-			}
-		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
 		cam.pitch(-0.2f * Gdx.input.getDeltaY());		
 	}
