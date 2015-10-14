@@ -60,7 +60,7 @@ public class Maze {
 		ModelMatrix.main.popMatrix();
 	}
 	public static Cell getNorth(int x, int z){
-		if(z >= height){
+		if(z >= height-1){
 			return null;
 		}
 		else{
@@ -76,7 +76,7 @@ public class Maze {
 		}
 	}
 	public static Cell getEast(int x, int z){
-		if(x >= width){
+		if(x >= width-1){
 			return null;
 		}
 		else{
