@@ -17,9 +17,16 @@ void main()
 {
 	//Lighting
 	
-	float lambert = dot(v_normal, v_s) / (length(v_normal) * length(v_s)); //The intensity of how the light hits the surfice.
-	float phong = dot(v_normal, v_h) / (length(v_normal) * length(v_h));
+	float lambert = max(0.0, dot(v_normal, v_s) / (length(v_normal) * length(v_s))); //The intensity of how the light hits the surfice.
+	float phong = max(0.0, dot(v_normal, v_h) / (length(v_normal) * length(v_h)));
 	
-	gl_FragColor = lambert * u_lightDiffuse * u_materialDiffuse + pow(phong, u_materialShininess) * u_lightDiffuse * vec4(1,0.4,0.4,1);
+	//vec4 diffuseColor = lambert * u_lightDiffuse * u_materialDiffuse;
+	//vec4 specularColor = pow(phon, u_materialShininess) * u_lightDiffuse * vec4(1,1,1,1,);
+	//v_color = diffuseColor + specularColor;
+	
+	
+	
+	gl_FragColor = lambert * u_lightDiffuse * u_materialDiffuse 
+		+ pow(phong, u_materialShininess) * u_lightDiffuse * vec4(0.3,1,0.5,1);
 	
 }
