@@ -4,16 +4,15 @@ package com.ru.tgra.shapes;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.BufferUtils;
 
-public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
+public class LabFirst3DGame extends ApplicationAdapter {
 
 	Shader shader;
 	
 	private float angle;
+	private float objectRotationAngle;
 
 	public static int colorLoc;
 	
@@ -23,6 +22,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private float fov = 100.0f;
 	
 	private Maze maze;
+	
+	private Sound sound;
+	private long track;
+	private float volume;
 
 	//private ModelMatrix modelMatrix;
 	
@@ -38,14 +41,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void create () {
-		
-		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
-		//Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
+		volume = 1;
 		
 		shader = new Shader();
-		maze = new Maze(15, 17);
+		maze = new Maze(15, 15);
 
-		Gdx.input.setInputProcessor(this);
+		
 
 		BoxGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
 		SphereGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
@@ -62,16 +63,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		cam = new Camera();
-		cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
-		
+		//cam.look(new Point3D(1.5f, 1f, -0.5f), new Point3D(0,1,-1), new Vector3D(0,1,0));
+		cam.look(new Point3D(5f, 1f, -16f), new Point3D(0,1,-1), new Vector3D(0,1,0));
 		orthoCam = new Camera();
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
 		Gdx.input.setCursorCatched(true);
-	}
-
-	private void input()
-	{
+		sound = Gdx.audio.newSound(Gdx.files.internal("hall.mp3"));
+		track = sound.play(1);
+		
 	}
 	
 	private void update()
@@ -100,6 +100,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
 			//cam.slide(0, -3.0f * deltaTime, 0);
 		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+			if(volume == 1){
+				volume = 0;
+			}
+			else{
+				volume = 1;
+			}
+			sound.setVolume(track, volume);
+		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			//cam.yaw(-90.0f * deltaTime);
@@ -118,6 +127,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			Gdx.graphics.setDisplayMode(500, 500, false);
+			sound.dispose();
 			Gdx.app.exit();
 		}
 		
@@ -193,6 +203,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			shader.setMaterialDiffuse(0, 0, 0, 1);
 			shader.setMaterialSpecular(0, 0, 0, 1);
 			
+
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(10.0f, 4.0f, -10.0f);
 			//ModelMatrix.main.addTranslation(10 * s + 8.5f, 4.0f, 10 * c - 8.5f);
@@ -214,6 +225,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
+
+			drawExtraObjects();
+			
 				
 			maze.drawMaze();
 			
@@ -235,85 +249,50 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	@Override
 	public void render () {
-		
-		input();
 		//put the code inside the update and display methods, depending on the nature of the code
 		update();
 		display();
 
 	}
-
-	/*
-	private void Look3D(Point3D eye, Point3D center, Vector3D up) {
+	
+	public void drawExtraObjects(){
+		// draw collidiable object
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(7.5f, 1, -16.0f);
+		ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
+		ModelMatrix.main.addRotationY(objectRotationAngle);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
 		
-		Vector3D n = Vector3D.difference(eye, center);
-		Vector3D u = up.cross(n);
-		n.normalize();
-		u.normalize();
-		Vector3D v = n.cross(u);
-
-		Vector3D minusEye = new Vector3D(-eye.x, -eye.y, -eye.z);
-		
-		float[] pm = new float[16];
-
-		pm[0] = u.x; pm[4] = u.y; pm[8] = u.z; pm[12] = minusEye.dot(u);
-		pm[1] = v.x; pm[5] = v.y; pm[9] = v.z; pm[13] = minusEye.dot(v);
-		pm[2] = n.x; pm[6] = n.y; pm[10] = n.z; pm[14] = minusEye.dot(n);
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
-	}
-	*/
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
+		//draw floating objects
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(7.5f, 10.0f, -14.0f);
+		//ModelMatrix.main.addRotationZ(45);
+		ModelMatrix.main.addScale(1, 2, 1);
+		objectRotationAngle += 45 * Gdx.graphics.getDeltaTime();
+		ModelMatrix.main.addRotationY(objectRotationAngle);
+		ModelMatrix.main.addTranslation(0, 0, 1);
+		ModelMatrix.main.addRotationX(-objectRotationAngle);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
+		ModelMatrix.main.addRotationY(objectRotationAngle);
+		ModelMatrix.main.addTranslation(6, 0, 0);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		SphereGraphic.drawSolidSphere();
+		ModelMatrix.main.popMatrix();
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addScale(0.25f, 0.25f, 0.25f);
+		ModelMatrix.main.addRotationY(-objectRotationAngle);
+		ModelMatrix.main.addTranslation(0, 0, 8);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		SphereGraphic.drawSolidSphere();
+		ModelMatrix.main.popMatrix();
+		//SphereGraphic.drawSolidSphere();
+		ModelMatrix.main.popMatrix();
 	}
 
 

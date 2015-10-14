@@ -3,8 +3,6 @@ package com.ru.tgra.shapes;
 import java.nio.FloatBuffer;
 //import javax.vecmath.Point3d;
 
-
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.BufferUtils;
 
@@ -74,6 +72,7 @@ public class Camera {
 		
 		
 		collisionCheck(delU, delV, delN, originX, originZ, locX, locZ, false);
+		extraObjectCollision(originX, originZ);
 	}
 	
 	public void walkForward(float del)
@@ -82,16 +81,24 @@ public class Camera {
 		float originZ = eye.z;
 		int locX = -1;
 		int locZ = -1;
-		
-		
 		collisionCheck(0, 0, del, originX, originZ, locX, locZ, true);
-		
-		
-		
-		
+		extraObjectCollision(originX, originZ);
+	}
+	public void extraObjectCollision(float originX, float originZ){
+		if(eye.z < -14){
+			double xd = eye.x-7.5f;
+			double zd = eye.z-(-16f);
+			if(Math.sqrt(Math.pow(xd, 2)+Math.pow(zd, 2)) < 0.5f){
+				
+				eye.x = originX;
+				eye.z = originZ;
+			}
+		}
+
 	}
 	
 	public void collisionCheck(float delU, float delV, float delN, float originX, float originZ, int locX, int locZ, boolean forward){
+		
 		float padding = 0.35f;
 
 		for(int i = 0; i < Maze.width; i++){
@@ -106,7 +113,6 @@ public class Camera {
 				break;
 			}
 		}
-
 		
 		if(forward){
 			eye.x -= delN*n.x;
@@ -183,8 +189,6 @@ public class Camera {
 			}
 		}
 		
-		
-		
 		//southwestNorthwall
 		cell = Maze.getSouth(locX, locZ);
 		if(cell != null){
@@ -195,10 +199,10 @@ public class Camera {
 						eye.x = locX + padding;
 					}
 				}else{
-				//southWestEastwall
-				cell = Maze.getSouth(locX, locZ);
-				if(cell != null){
-					cell = Maze.getWest(locX, locZ-1);
+					//southWestEastwall
+					cell = Maze.getSouth(locX, locZ);
+					if(cell != null){
+						cell = Maze.getWest(locX, locZ-1);
 						if(cell != null){
 							if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
 								if(relX < padding && relZ > 1-padding){
@@ -206,11 +210,10 @@ public class Camera {
 								}
 							}
 						}
-				}
+					}
 				}
 			}
 		}
-		
 		//southeastNorthwall
 		cell = Maze.getSouth(locX, locZ);
 		if(cell != null){
@@ -225,11 +228,11 @@ public class Camera {
 					//southEastwall
 					cell = Maze.getSouth(locX, locZ);
 					if(cell != null){
-							if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
-								if(relX > 1-padding && relZ > 1-padding){
-									eye.z = -locZ + 1-padding;
-								}
+						if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
+							if(relX > 1-padding && relZ > 1-padding){
+								eye.z = -locZ + 1-padding;
 							}
+						}
 					}
 				}
 			}
@@ -243,7 +246,6 @@ public class Camera {
 				if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
 					if(relX > 1-padding && relZ < padding){
 						eye.z = -locZ + padding;
-						//System.out.println("westNortheastwall3");
 					}
 				}
 				else{
@@ -376,6 +378,4 @@ public class Camera {
 		
 		return matrixBuffer;
 	}
-	
-	
 }
