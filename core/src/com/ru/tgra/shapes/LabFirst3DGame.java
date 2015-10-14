@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.BufferUtils;
 
@@ -23,6 +24,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private float fov = 100.0f;
 	
 	private Maze maze;
+	
+	private Sound sound;
 
 	//private ModelMatrix modelMatrix;
 	
@@ -68,6 +71,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		
 		Gdx.input.setCursorCatched(true);
+		sound = Gdx.audio.newSound(Gdx.files.internal("hall.mp3"));
+		sound.play(1);
+		
 	}
 
 	private void input()
@@ -118,6 +124,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			Gdx.graphics.setDisplayMode(500, 500, false);
+			sound.dispose();
 			Gdx.app.exit();
 		}
 		
@@ -192,7 +199,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(8.0f, 10.0f, -8.0f);
+			ModelMatrix.main.addTranslation(7.5f, 10.0f, -14.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
