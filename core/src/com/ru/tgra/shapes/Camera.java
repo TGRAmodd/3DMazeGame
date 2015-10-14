@@ -157,17 +157,17 @@ public class Camera {
 					
 					
 				}
-			}
-		}else {//westNorthEastwall
-			cell = Maze.getWest(locX, locZ);
-			//System.out.println("westNortheastwall1");
-			if(cell != null){
-				cell = Maze.getNorth(locX-1, locZ);
+			}else{
+				cell = Maze.getWest(locX, locZ);
+				//System.out.println("westNortheastwall1");
 				if(cell != null){
-					if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
-						
-						if(relX < padding && relZ < padding){
-							eye.z = -locZ + padding;
+					cell = Maze.getNorth(locX-1, locZ);
+					if(cell != null){
+						if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
+							
+							if(relX < padding && relZ < padding){
+								eye.z = -locZ + padding;
+							}
 						}
 					}
 				}
@@ -182,7 +182,6 @@ public class Camera {
 				if(cell.northWall && !Maze.getSouth(locX, locZ).northWall){
 					if(relX < padding && relZ > 1-padding){
 						eye.x = locX + padding;
-						//System.out.println("southWestNorth");
 					}
 				}
 			}
@@ -195,7 +194,6 @@ public class Camera {
 					if(cell.eastWall && !Maze.getWest(locX, locZ).eastWall){
 						if(relX < padding && relZ > 1-padding){
 							eye.z = -locZ + 1-padding;
-							//System.out.println("westNortheastwall3");
 						}
 					}
 				}
@@ -210,7 +208,6 @@ public class Camera {
 				if(cell.northWall && !Maze.getSouth(locX, locZ).northWall){
 					if(relX > 1-padding && relZ > 1-padding){
 						eye.x = locX + 1-padding;
-						//System.out.println("southEastNorth");
 					}
 				}
 			}
@@ -221,7 +218,6 @@ public class Camera {
 				if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
 					if(relX > 1-padding && relZ > 1-padding){
 						eye.z = -locZ + 1-padding;
-						//System.out.println("westNortheastwall3");
 					}
 				}
 			}
@@ -235,19 +231,19 @@ public class Camera {
 				if(cell.eastWall && !Maze.cells[locX][locZ].eastWall){
 					if(relX > 1-padding && relZ < padding){
 						eye.z = -locZ + padding;
-						//System.out.println("westNortheastwall3");
 					}
 				}
-		}else{
-			//eastNorthwall
-			cell = Maze.getEast(locX, locZ);
-			if(cell != null){
-				if(cell.northWall && !Maze.cells[locX][locZ].northWall){
-					if(relX > 1-padding && relZ < padding){
-						eye.x = locX + 1-padding;
+				else{
+					//eastNorthwall
+					cell = Maze.getEast(locX, locZ);
+					if(cell != null){
+						if(cell.northWall && !Maze.cells[locX][locZ].northWall){
+							if(relX > 1-padding && relZ < padding){
+								eye.x = locX + 1-padding;
+							}
+						}
 					}
 				}
-			}
 		}
 		
 	}

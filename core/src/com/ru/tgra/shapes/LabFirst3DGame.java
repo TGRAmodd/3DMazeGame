@@ -5,9 +5,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.GL20;
-
-
 import com.badlogic.gdx.utils.BufferUtils;
 
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
@@ -40,8 +39,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	@Override
 	public void create () {
 		
+		DisplayMode disp = Gdx.graphics.getDesktopDisplayMode();
+		//Gdx.graphics.setDisplayMode(disp.width, disp.height, true);
+		
 		shader = new Shader();
-		maze = new Maze(15, 17);
+		maze = new Maze(15, 15);
 
 		Gdx.input.setInputProcessor(this);
 
@@ -115,6 +117,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			Gdx.graphics.setDisplayMode(500, 500, false);
 			Gdx.app.exit();
 		}
 		
@@ -131,6 +134,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.G)) {
 			//fov += 30.0f * deltaTime;			
 		}
+		
 		
 		cam.rotateY(-0.2f * Gdx.input.getDeltaX());
 		cam.pitch(-0.2f * Gdx.input.getDeltaY());
@@ -170,7 +174,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			float c = (float)Math.cos(angle * Math.PI / 180.0);
 			
 
-			shader.setLightPosition( 15.0f, 4.0f, 15.0f, 1.0f);
+			//shader.setLightPosition( 10.0f, 4.0f, -10.0f, 1.0f);
+			shader.setLightPosition(10 * s + 8.5f, 4.0f, 10 * c - 8.5f, 1.0f);
 
 			
 			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI / 180.0));
@@ -185,8 +190,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			shader.setShininess(20.0f);
 
 			
+			
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);
+			ModelMatrix.main.addTranslation(8.0f, 10.0f, -8.0f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			SphereGraphic.drawSolidSphere();
 			ModelMatrix.main.popMatrix();
