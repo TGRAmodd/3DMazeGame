@@ -177,7 +177,6 @@ public class LabFirst3DGame extends ApplicationAdapter {
 			//Directional light
 			shader.setLightColor4(0.2f, 0.2f, 0.2f, 1.0f);
 			
-
 			
 			shader.setGlobalAmbient(0.2f, 0.2f, 0.2f, 1);
 			shader.setMaterialEmission(1.0f, 1.0f, 1.0f, 1.0f);

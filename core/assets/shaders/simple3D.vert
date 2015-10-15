@@ -83,7 +83,7 @@ void main()
 	
 	
 	// light 3 (Position light)
-	v_s = u_lightPosition2 - position; //direction to the light
+	v_s = u_lightPosition3 - position; //direction to the light
 	v_h = v_s + v;
 	
 	lambert = max(0.0, dot(v_normal, v_s) / (length(v_normal) * length(v_s))); //The intensity of how the light hits the surfice.
